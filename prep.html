@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拜访备战卡</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1a2332;line-height:1.7;min-height:100vh}
+.header{background:linear-gradient(135deg,#064e3b,#059669);color:#fff;padding:20px 16px;text-align:center}
+.header h1{font-size:22px;font-weight:700}
+.header p{font-size:13px;opacity:.8;margin-top:4px}
+.container{max-width:700px;margin:0 auto;padding:16px}
+.section{margin:16px 0 8px;font-size:15px;font-weight:600;color:#065f46;padding-left:10px;border-left:3px solid #059669}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.btn{flex:1;min-width:130px;padding:10px 14px;border-radius:8px;cursor:pointer;text-align:center;font-weight:500;font-size:14px;border:2px solid #d1d5db;background:#fff;color:#374151;transition:all .15s}
+.btn.active{background:#059669;color:#fff;border-color:#059669}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden;margin-top:8px}
+.card-hd{background:linear-gradient(135deg,#059669,#34d399);color:#fff;padding:16px 18px}
+.card-hd h2{font-size:15px;font-weight:600}
+.card-hd p{font-size:12px;opacity:.85;margin-top:2px}
+.card-bd{padding:14px 18px}
+.info-section{margin-bottom:14px}
+.info-section:last-child{margin-bottom:0}
+.info-title{font-size:13px;font-weight:600;color:#059669;margin-bottom:6px}
+.info-text{font-size:13px;line-height:1.7;color:#333}
+.data-tag{display:inline-block;background:#ecfdf5;padding:5px 10px;border-radius:6px;font-size:12px;color:#065f46;margin:2px}
+.back-link{display:inline-block;margin:20px auto;text-align:center;color:#059669;text-decoration:none;font-size:13px;padding:8px 20px;border:1px solid #059669;border-radius:8px}
+.back-link:hover{background:#ecfdf5}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🏥 拜访备战卡</h1>
+  <p>选产品 · 选场景 · 进诊室前快速温习</p>
+</div>
+<div class="container">
+  <div class="section">1. 选择产品</div>
+  <div class="btn-group" id="prodBtns">
+    <div class="btn active" data-val="jinsaijia" onclick="pick(this,'prod')">金赛佳®<br><small style="font-weight:400">长效促排卵</small></div>
+    <div class="btn" data-val="jinsaixin" onclick="pick(this,'prod')">金赛欣®<br><small style="font-weight:400">水溶性黄体酮</small></div>
+  </div>
+  <div class="section">2. 医生类型</div>
+  <div class="btn-group" id="docBtns">
+    <div class="btn active" data-val="expert" onclick="pick(this,'doc')">🏛 主任专家<br><small style="font-weight:400">聊学术</small></div>
+    <div class="btn" data-val="clinician" onclick="pick(this,'doc')">🩺 临床医生<br><small style="font-weight:400">聊实用</small></div>
+    <div class="btn" data-val="pharmacist" onclick="pick(this,'doc')">💊 药师<br><small style="font-weight:400">聊医保</small></div>
+  </div>
+  <div class="card" id="prepCard">
+    <div class="card-hd"><h2 id="cardTitle">金赛佳® · 主任专家</h2><p id="cardSub">今日拜访 · 核心内容速览</p></div>
+    <div class="card-bd" id="cardBody"></div>
+  </div>
+  <div style="text-align:center;padding:10px 0 30px">
+    <a class="back-link" href="./">← 返回产品首页</a>
+  </div>
+</div>
+<script>
+var state={prod:"jinsaijia",doc:"expert"};
+var DATA={jinsaijia:{expert:{title:"金赛佳®·主任专家",core:["①单次注射覆盖一周促排周期","②III期双盲n=473，获卵数非劣效","③妊娠结局与短效rFSH相当"],data:["半衰期~76h（短效3倍）","获卵数15.5 vs 12.1 (P=0.014)","临床妊娠率45.7% vs 45.5%"]},clinician:{title:"金赛佳®·临床医生",core:["①100μg/150μg按体重年龄选择","②7天内不额外添加含FSH产品","③D5靠E2和卵泡大小判断，不靠FSH血值"],data:["100μg:≤36岁≤60kg","150μg:>60kg","5300+例上市后数据"]},pharmacist:{title:"金赛佳®·药师",core:["①100μg/0.5ml和150μg/0.5ml两种规格","②2~8℃冷藏储存，不可冷冻","③25℃以下可放置不超过1个月"],data:["规格:预灌封注射器","储存:2~8℃","有效期:24个月"]}},jinsaixin:{expert:{title:"金赛欣®·主任专家",core:["①国内首个水溶性黄体酮仿制药/BE获批","②2024年国谈药品，乙类医保报销","③新鲜周期25mg qd，冻胚HRT 25mg bid+口服"],data:["医保价24.86元/瓶","注射硬结率仅0.07%","阴道不良反应10.4% vs 50.8%"]},clinician:{title:"金赛欣®·临床医生",core:["①新鲜周期:25mg qd单用即可","②冻胚HRT:25mg bid+口服地屈孕酮","③患者倾向性优于阴道凝胶，依从性好"],data:["血孕酮~20ng/ml（移植日）","比凝胶更方便无残留","无阴道分泌物困扰"]},pharmacist:{title:"金赛欣®·药师",core:["①25mg/1.112ml/瓶水溶性注射液","②≤25℃避光保存，严禁冷藏冷冻","③乙类医保，指导价24.86元/瓶"],data:["规格:注射液","储存:≤25℃","医保:24.86元/瓶"]}}};
+function pick(el,type){document.querySelectorAll(".btn-group .btn").forEach(function(b){b.classList.remove("active");b.style.background="#fff";b.style.color="#374151";b.style.borderColor="#d1d5db"});el.classList.add("active");el.style.background="#059669";el.style.color="#fff";el.style.borderColor="#059669";state[type]=el.dataset.val;update()}
+function update(){var d=DATA[state.prod][state.doc];document.getElementById("cardTitle").textContent=d.title;var h="<div class=info-section><div class=info-title>🎯 核心信息</div><div class=info-text>"+d.core.join("<br>")+"</div></div><div class=info-section><div class=info-title>📊 关键数据</div>"+d.data.map(function(v){return"<span class=data-tag>"+v+"</span>"}).join("")+"</div>";document.getElementById("cardBody").innerHTML=h}
+update();
+</script>
+</body>
+</html>
