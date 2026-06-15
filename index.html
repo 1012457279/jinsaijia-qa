@@ -88,6 +88,9 @@ footer{text-align:center;padding:24px 20px;font-size:11px;color:#bbb}
   .qh{font-size:13px;padding:12px 14px}
   .qa{font-size:13px}.o .qa{padding:0 14px 10px}
 }
+.product-card .accent.p3{background:linear-gradient(180deg,#f59e0b,#fbbf24)}
+.product-card .enter-btn.b3{background:linear-gradient(135deg,#f59e0b,#fbbf24);border:none;cursor:pointer}
+
 </style>
 </head>
 <body>
@@ -112,7 +115,19 @@ footer{text-align:center;padding:24px 20px;font-size:11px;color:#bbb}
     <div><button class="enter-btn b1">进入知识库 →</button></div>
   </div>
 
-  <div class="product-card" onclick="showProduct('jinsaixin')">
+  
+  <div class="product-card" onclick="window.location.href='prep.html'">
+    <div class="accent p3"></div>
+    <h2>🏥 拜访备战卡</h2>
+    <div class="sub">进诊室前 · 产品知识快速温习</div>
+    <div class="desc">选产品、选医生类型，一键生成拜访要点——核心信息、关键数据、应对话术，一目了然。适合见医生前快速翻阅。</div>
+    <span class="tag">快速备询</span>
+    <span class="tag">话术参考</span>
+    <span class="tag">数据速查</span>
+    <div><button class="enter-btn b3" style="cursor:pointer">开始备战 →</button></div>
+  </div>
+
+<div class="product-card" onclick="showProduct('jinsaixin')">
     <div class="accent p2"></div>
     <h2>金赛欣®</h2>
     <div class="sub">水溶性黄体酮 · 黄体酮注射液（II）</div>
@@ -123,8 +138,7 @@ footer{text-align:center;padding:24px 20px;font-size:11px;color:#bbb}
     <div><button class="enter-btn b2">进入知识库 →</button></div>
   </div>
 </div>
-<footer>仅供内部培训使用<p style="margin:6px 0"><a href="prep.html" style="color:#059669;text-decoration:none;font-size:12px">🏥 拜访备战卡</a></p>
-</footer>
+<footer>仅供内部培训使用</footer>
 </div>
 
 <!-- ====== VIEW: 金赛佳 ====== -->
