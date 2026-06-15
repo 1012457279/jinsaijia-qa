@@ -88,11 +88,11 @@ footer{text-align:center;padding:24px 20px;font-size:11px;color:#bbb}
   .qh{font-size:13px;padding:12px 14px}
   .qa{font-size:13px}.o .qa{padding:0 14px 10px}
 }
-.product-card .accent.p3{background:linear-gradient(180deg,#059669,#34d399)}
-.product-card .enter-btn.b3{background:linear-gradient(135deg,#059669,#34d399)}
-.pv-hero.h3{background:linear-gradient(135deg,#064e3b,#059669)}
-.cat.c3{color:#059669;border-color:#059669}
-
+.product-card .accent.p3{background:linear-gradient(180deg,#059669,#34d399)}
+.product-card .enter-btn.b3{background:linear-gradient(135deg,#059669,#34d399)}
+.pv-hero.h3{background:linear-gradient(135deg,#064e3b,#059669)}
+.cat.c3{color:#059669;border-color:#059669}
+
 </style>
 </head>
 <body>
@@ -104,7 +104,17 @@ footer{text-align:center;padding:24px 20px;font-size:11px;color:#bbb}
   <p>基于产品资料与临床常见问题整理的内部参考问答库</p>
 </div>
 <div class="landing-wrap">
-  <div class="section-title">请选择产品</div>
+  <div class="section-title">请选择</div>
+
+  <div class="product-card" onclick="showPrep()">
+    <div class="accent p3"></div>
+    <h2>🏥 拜访备战卡</h2>
+    <div class="sub">进诊室前 · 快速温习</div>
+    <div class="desc">选择产品与医生类型，一键生成拜访要点。</div>
+    <span class="tag">快速备询</span>
+    <span class="tag">话术参考</span>
+    <div><button class="enter-btn b3">开始备战 →</button></div>
+  </div>
 
   <div class="product-card" onclick="showProduct('jinsaijia')">
     <div class="accent p1"></div>
@@ -349,6 +359,51 @@ function initSearch2() {
 
 // Init: show landing by default
 showLanding();
+var prepState = { prod: "jinsaijia", doc: "expert" };
+function selectProduct(el){document.querySelectorAll(".prep-prod-btn").forEach(function(b){b.style.background="#fff";b.style.color="#059669";b.style.borderColor="#d1d5db";});el.style.background="#059669";el.style.color="#fff";el.style.borderColor="#059669";prepState.prod=el.dataset.prod;updatePrepCard();}
+function selectDoctor(el){document.querySelectorAll(".prep-doc-btn").forEach(function(b){b.style.background="#fff";b.style.color="#059669";b.style.borderColor="#d1d5db";});el.style.background="#059669";el.style.color="#fff";el.style.borderColor="#059669";prepState.doc=el.dataset.doc;updatePrepCard();}
+var prepData={jinsaijia:{expert:{title:"金赛佳®·主任专家",core:"①单次注射覆盖一周促排
+②III期双盲n=473，获卵数非劣效
+③妊娠结局与短效相当",data:"半衰期~76h（短效3倍）|获卵数15.5 vs 12.1|临床妊娠率45.7%"},clinician:{title:"金赛佳®·临床医生",core:"①100μg/150μg按体重年龄选
+②7天内不额外加FSH
+③D5靠E2和卵泡大小判断",data:"100μg:≤36岁≤60kg|150μg:>60kg|5300+例上市后数据"},pharmacist:{title:"金赛佳®·药师",core:"①100μg/0.5ml和150μg/0.5ml
+②2~8℃冷藏不可冷冻
+③25℃以下可放≤1个月",data:"规格:预灌封注射器|储存:2~8℃|有效期:24个月"}},
+jinsaixin:{expert:{title:"金赛欣®·主任专家",core:"①国内首个水溶性黄体酮仿制药
+②2024年国谈药品，乙类报销
+③新鲜周期25mg qd，冻胚HRT 25mg bid",data:"医保价24.86元/瓶|注射硬结率0.07%|阴道不良反应10.4% vs 50.8%"},clinician:{title:"金赛欣®·临床医生",core:"①新鲜周期25mg qd即可
+②冻胚HRT 25mg bid+口服
+③患者倾向性优于阴道给药",data:"血孕酮~20ng/ml|比凝胶更方便|无分泌物困扰"},pharmacist:{title:"金赛欣®·药师",core:"①25mg/1.112ml/瓶
+②≤25℃避光保存，严禁冷藏
+③乙类医保报销",data:"规格:注射液|储存:≤25℃|医保:24.86元/瓶"}}
+};
+function updatePrepCard(){var p=prepState.prod,d=prepState.doc;var info=(prepData[p]||{})[d]||prepData[p].expert;document.getElementById("prep-title").textContent=info.title;document.getElementById("prep-card-body").innerHTML="<div style=margin-bottom:16px><div style=font-size:13px;font-weight:600;color:#059669;margin-bottom:8px>🎯 核心信息</div><div style=font-size:13px;line-height:1.7;color:#333>"+info.core.replace(/\r\n/g,"<br>")+"</div></div><div><div style=font-size:13px;font-weight:600;color:#059669;margin-bottom:8px>📊 关键数据</div><div style=display:flex;gap:8px;flex-wrap:wrap>"+info.data.split("|").map(function(d){return"<span style=background:#ecfdf5;padding:6px 12px;border-radius:8px;font-size:12px;color:#065f46>"+d+"</span>"}).join("")+"</div></div>";}
+function showPrep(){document.getElementById("view-landing").style.display="none";document.getElementById("view-jinsaijia").style.display="none";document.getElementById("view-jinsaixin").style.display="none";document.getElementById("view-prep").style.display="block";var pe=document.querySelector(".prep-prod-btn[data-prod='jinsaijia']");var de=document.querySelector(".prep-doc-btn[data-doc='expert']");[pe,de].forEach(function(e){if(e){e.style.background="#059669";e.style.color="#fff";e.style.borderColor="#059669";}});prepState={prod:"jinsaijia",doc:"expert"};updatePrepCard();}
 </script>
+<!-- VIEW: 拜访备战 -->
+<div id="view-prep" class="product-view" style="display:none">
+<div class="top-nav"><button class="btn-back" onclick="showLanding()">← 返回</button><div class="nav-title">拜访备战卡<span class="nav-sub">· 快速温习</span></div><div style="width:40px"></div></div>
+<div class="pv-hero h3"><h2>🏥 拜访备战卡</h2><p>选产品 · 选场景 · 快速温习 | 内部培训使用</p></div>
+<div class="pv-main" style="max-width:780px;margin:0 auto;padding:0 16px 40px">
+<div class="cat c3">1. 选择产品</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+<div class="prep-prod-btn active" data-prod="jinsaijia" onclick="selectProduct(this)" style="flex:1;min-width:140px;padding:12px 16px;border-radius:10px;cursor:pointer;text-align:center;font-weight:600;font-size:14px;background:#059669;color:#fff;border:2px solid #059669">金赛佳®<br><span style="font-size:12px;font-weight:400">长效促排卵</span></div>
+<div class="prep-prod-btn" data-prod="jinsaixin" onclick="selectProduct(this)" style="flex:1;min-width:140px;padding:12px 16px;border-radius:10px;cursor:pointer;text-align:center;font-weight:600;font-size:14px;background:#fff;color:#059669;border:2px solid #d1d5db">金赛欣®<br><span style="font-size:12px;font-weight:400">水溶性黄体酮</span></div>
+</div>
+<div class="cat c3">2. 医生类型</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+<div class="prep-doc-btn active" data-doc="expert" onclick="selectDoctor(this)" style="flex:1;min-width:100px;padding:10px 14px;border-radius:10px;cursor:pointer;text-align:center;font-weight:500;font-size:13px;background:#059669;color:#fff;border:2px solid #059669">🏛 主任专家<br><span style="font-size:11px">聊学术</span></div>
+<div class="prep-doc-btn" data-doc="clinician" onclick="selectDoctor(this)" style="flex:1;min-width:100px;padding:10px 14px;border-radius:10px;cursor:pointer;text-align:center;font-weight:500;font-size:13px;background:#fff;color:#059669;border:2px solid #d1d5db">🩺 临床医生<br><span style="font-size:11px">聊实用</span></div>
+<div class="prep-doc-btn" data-doc="pharmacist" onclick="selectDoctor(this)" style="flex:1;min-width:100px;padding:10px 14px;border-radius:10px;cursor:pointer;text-align:center;font-weight:500;font-size:13px;background:#fff;color:#059669;border:2px solid #d1d5db">💊 药师<br><span style="font-size:11px">聊医保</span></div>
+</div>
+<div id="prep-card" style="background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow:hidden">
+<div id="prep-card-header" style="background:linear-gradient(135deg,#059669,#34d399);color:#fff;padding:18px 20px">
+<div style="font-size:14px;font-weight:600" id="prep-title">金赛佳® · 主任专家</div>
+<div style="font-size:12px;opacity:.85;margin-top:4px">今日拜访 · 核心内容速览</div>
+</div>
+<div style="padding:16px 20px" id="prep-card-body"></div>
+</div>
+</div>
+</div>
 </body>
 </html>
