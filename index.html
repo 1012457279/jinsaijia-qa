@@ -1,343 +1,354 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.5">
-<title>金赛产品信息平台</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,"Segoe UI","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1a2332;line-height:1.7;min-height:100vh}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.5">
+<title>金赛产品信息平台</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1a2332;line-height:1.7;min-height:100vh}
+
+/* ====== Navigation ====== */
+.top-nav{background:linear-gradient(135deg,#1a365d,#2b6cb0);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.top-nav .btn-back{background:rgba(255,255,255,.15);border:none;color:#fff;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:13px;transition:background .2s;white-space:nowrap}
+.top-nav .btn-back:hover{background:rgba(255,255,255,.25)}
+.top-nav .nav-title{font-size:15px;font-weight:600;flex:1;text-align:center;margin-right:40px}
+
+/* ====== Landing ====== */
+#view-landing{display:block}
+#view-landing .hero{background:linear-gradient(135deg,#1a365d 0%,#2b6cb0 50%,#3182ce 100%);color:#fff;padding:48px 20px 36px;text-align:center}
+#view-landing .hero h1{font-size:28px;font-weight:700;margin-bottom:8px;letter-spacing:1px}
+#view-landing .hero p{font-size:14px;opacity:.8;max-width:500px;margin:0 auto}
+.landing-wrap{max-width:720px;margin:0 auto;padding:32px 16px 60px}
+.landing-wrap .section-title{font-size:15px;color:#4a5568;margin-bottom:16px;text-align:center}
+.product-card{background:#fff;border-radius:16px;padding:28px 24px;margin-bottom:20px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.product-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.product-card .accent{position:absolute;top:0;left:0;width:6px;height:100%}
+.product-card .accent.p1{background:linear-gradient(180deg,#2b6cb0,#63b3ed)}
+.product-card .accent.p2{background:linear-gradient(180deg,#805ad5,#b794f4)}
+.product-card h2{font-size:20px;font-weight:700;margin-bottom:4px}
+.product-card .sub{font-size:13px;color:#718096;margin-bottom:10px}
+.product-card .desc{font-size:14px;color:#4a5568;line-height:1.6;margin-bottom:14px}
+.product-card .tag{display:inline-block;padding:2px 12px;border-radius:12px;font-size:12px;background:#edf2f7;color:#4a5568;margin-right:6px;margin-bottom:4px}
+.product-card .enter-btn{display:inline-block;padding:8px 24px;border-radius:20px;color:#fff;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;margin-top:4px}
+.product-card .enter-btn:hover{opacity:.9}
+.product-card .enter-btn.b1{background:linear-gradient(135deg,#2b6cb0,#4299e1)}
+.product-card .enter-btn.b2{background:linear-gradient(135deg,#805ad5,#9f7aea)}
+
+/* ====== Product Views ====== */
+.product-view{display:none}
+.product-view .top-nav .nav-title{text-align:center}
+.product-view .top-nav .nav-sub{font-size:12px;opacity:.7;font-weight:400}
+
+.pv-hero{padding:24px 20px 20px;color:#fff;text-align:center}
+.pv-hero.h1{background:linear-gradient(135deg,#1a365d,#2b6cb0)}
+.pv-hero.h2{background:linear-gradient(135deg,#553c9a,#805ad5)}
+.pv-hero h2{font-size:22px;font-weight:700}
+.pv-hero p{font-size:13px;opacity:.8;margin-top:4px}
+
+.pv-search{max-width:640px;margin:-16px auto 0;padding:0 16px;position:relative;z-index:10}
+.pv-search input{width:100%;padding:12px 18px;border:0;border-radius:12px;font-size:15px;background:#fff;box-shadow:0 3px 16px rgba(0,0,0,.08);outline:0;transition:box-shadow .2s}
+.pv-search input:focus{box-shadow:0 3px 20px rgba(43,108,176,.2)}
+
+.pv-stats{max-width:780px;margin:16px auto 0;padding:0 16px;font-size:13px;color:#718096;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.pv-stats .links{display:flex;flex-wrap:wrap;gap:6px}
+.pv-stats .links a{display:inline-block;padding:2px 12px;border-radius:14px;font-size:12px;text-decoration:none;transition:background .2s}
+.pv-stats .links a.l1{background:#e8edf4;color:#2b6cb0}
+.pv-stats .links a.l1:hover{background:#d0dbe8}
+.pv-stats .links a.l2{background:#ede8f5;color:#6b46c1}
+.pv-stats .links a.l2:hover{background:#dcd0e8}
+
+.pv-main{max-width:780px;margin:0 auto;padding:0 16px 40px}
+.cat{margin:20px 0 10px;font-size:16px;font-weight:600;padding-left:12px;border-left:4px solid}
+.cat.c1{color:#2b6cb0;border-color:#2b6cb0}
+.cat.c2{color:#6b46c1;border-color:#6b46c1}
+.q{background:#fff;border-radius:10px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden;transition:box-shadow .2s}
+.q:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.qh{padding:14px 18px;cursor:pointer;font-weight:500;font-size:14px;display:flex;align-items:flex-start;justify-content:space-between;user-select:none;transition:background .2s;gap:10px}
+.qh:hover{background:#f8faff}
+.qh .ar{font-size:10px;flex-shrink:0;margin-top:4px;transition:transform .25s;color:#999}
+.o .qh .ar{transform:rotate(180deg)}
+.qa{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 18px;color:#333;font-size:13.5px;line-height:1.8}
+.o .qa{max-height:5000px;padding:0 18px 14px}
+.qa p{margin-bottom:6px}
+.qa ul{padding-left:16px;margin-bottom:6px}
+.qa li{margin-bottom:2px}
+.qa .nm{font-size:12px;color:#999;margin-top:6px;padding-top:6px;border-top:1px solid #edf2f7}
+.qa table{border-collapse:collapse;font-size:13px;margin:6px 0;width:100%}
+.qa table th{background:#eef3f9;padding:6px 8px;border:1px solid #d0dbe8;text-align:left;font-weight:600}
+.qa table td{padding:5px 8px;border:1px solid #d0dbe8}
+.none{text-align:center;padding:40px;color:#999;display:none}
+footer{text-align:center;padding:24px 20px;font-size:11px;color:#bbb}
+
+@media(max-width:600px){
+  #view-landing .hero h1{font-size:22px}
+  .product-card{padding:20px 16px}
+  .product-card h2{font-size:18px}
+  .pv-hero h2{font-size:18px}
+  .qh{font-size:13px;padding:12px 14px}
+  .qa{font-size:13px}.o .qa{padding:0 14px 10px}
+}
+.product-card .accent.p3{background:linear-gradient(180deg,#059669,#34d399)}
+.product-card .enter-btn.b3{background:linear-gradient(135deg,#059669,#34d399)}
+.pv-hero.h3{background:linear-gradient(135deg,#064e3b,#059669)}
+.cat.c3{color:#059669;border-color:#059669}
 
-/* ====== Navigation ====== */
-.top-nav{background:linear-gradient(135deg,#1a365d,#2b6cb0);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-.top-nav .btn-back{background:rgba(255,255,255,.15);border:none;color:#fff;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:13px;transition:background .2s;white-space:nowrap}
-.top-nav .btn-back:hover{background:rgba(255,255,255,.25)}
-.top-nav .nav-title{font-size:15px;font-weight:600;flex:1;text-align:center;margin-right:40px}
-
-/* ====== Landing ====== */
-#view-landing{display:block}
-#view-landing .hero{background:linear-gradient(135deg,#1a365d 0%,#2b6cb0 50%,#3182ce 100%);color:#fff;padding:48px 20px 36px;text-align:center}
-#view-landing .hero h1{font-size:28px;font-weight:700;margin-bottom:8px;letter-spacing:1px}
-#view-landing .hero p{font-size:14px;opacity:.8;max-width:500px;margin:0 auto}
-.landing-wrap{max-width:720px;margin:0 auto;padding:32px 16px 60px}
-.landing-wrap .section-title{font-size:15px;color:#4a5568;margin-bottom:16px;text-align:center}
-.product-card{background:#fff;border-radius:16px;padding:28px 24px;margin-bottom:20px;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
-.product-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.1)}
-.product-card .accent{position:absolute;top:0;left:0;width:6px;height:100%}
-.product-card .accent.p1{background:linear-gradient(180deg,#2b6cb0,#63b3ed)}
-.product-card .accent.p2{background:linear-gradient(180deg,#805ad5,#b794f4)}
-.product-card h2{font-size:20px;font-weight:700;margin-bottom:4px}
-.product-card .sub{font-size:13px;color:#718096;margin-bottom:10px}
-.product-card .desc{font-size:14px;color:#4a5568;line-height:1.6;margin-bottom:14px}
-.product-card .tag{display:inline-block;padding:2px 12px;border-radius:12px;font-size:12px;background:#edf2f7;color:#4a5568;margin-right:6px;margin-bottom:4px}
-.product-card .enter-btn{display:inline-block;padding:8px 24px;border-radius:20px;color:#fff;font-size:14px;font-weight:500;border:none;cursor:pointer;transition:opacity .2s;margin-top:4px}
-.product-card .enter-btn:hover{opacity:.9}
-.product-card .enter-btn.b1{background:linear-gradient(135deg,#2b6cb0,#4299e1)}
-.product-card .enter-btn.b2{background:linear-gradient(135deg,#805ad5,#9f7aea)}
-
-/* ====== Product Views ====== */
-.product-view{display:none}
-.product-view .top-nav .nav-title{text-align:center}
-.product-view .top-nav .nav-sub{font-size:12px;opacity:.7;font-weight:400}
-
-.pv-hero{padding:24px 20px 20px;color:#fff;text-align:center}
-.pv-hero.h1{background:linear-gradient(135deg,#1a365d,#2b6cb0)}
-.pv-hero.h2{background:linear-gradient(135deg,#553c9a,#805ad5)}
-.pv-hero h2{font-size:22px;font-weight:700}
-.pv-hero p{font-size:13px;opacity:.8;margin-top:4px}
-
-.pv-search{max-width:640px;margin:-16px auto 0;padding:0 16px;position:relative;z-index:10}
-.pv-search input{width:100%;padding:12px 18px;border:0;border-radius:12px;font-size:15px;background:#fff;box-shadow:0 3px 16px rgba(0,0,0,.08);outline:0;transition:box-shadow .2s}
-.pv-search input:focus{box-shadow:0 3px 20px rgba(43,108,176,.2)}
-
-.pv-stats{max-width:780px;margin:16px auto 0;padding:0 16px;font-size:13px;color:#718096;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.pv-stats .links{display:flex;flex-wrap:wrap;gap:6px}
-.pv-stats .links a{display:inline-block;padding:2px 12px;border-radius:14px;font-size:12px;text-decoration:none;transition:background .2s}
-.pv-stats .links a.l1{background:#e8edf4;color:#2b6cb0}
-.pv-stats .links a.l1:hover{background:#d0dbe8}
-.pv-stats .links a.l2{background:#ede8f5;color:#6b46c1}
-.pv-stats .links a.l2:hover{background:#dcd0e8}
-
-.pv-main{max-width:780px;margin:0 auto;padding:0 16px 40px}
-.cat{margin:20px 0 10px;font-size:16px;font-weight:600;padding-left:12px;border-left:4px solid}
-.cat.c1{color:#2b6cb0;border-color:#2b6cb0}
-.cat.c2{color:#6b46c1;border-color:#6b46c1}
-.q{background:#fff;border-radius:10px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden;transition:box-shadow .2s}
-.q:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.qh{padding:14px 18px;cursor:pointer;font-weight:500;font-size:14px;display:flex;align-items:flex-start;justify-content:space-between;user-select:none;transition:background .2s;gap:10px}
-.qh:hover{background:#f8faff}
-.qh .ar{font-size:10px;flex-shrink:0;margin-top:4px;transition:transform .25s;color:#999}
-.o .qh .ar{transform:rotate(180deg)}
-.qa{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 18px;color:#333;font-size:13.5px;line-height:1.8}
-.o .qa{max-height:5000px;padding:0 18px 14px}
-.qa p{margin-bottom:6px}
-.qa ul{padding-left:16px;margin-bottom:6px}
-.qa li{margin-bottom:2px}
-.qa .nm{font-size:12px;color:#999;margin-top:6px;padding-top:6px;border-top:1px solid #edf2f7}
-.qa table{border-collapse:collapse;font-size:13px;margin:6px 0;width:100%}
-.qa table th{background:#eef3f9;padding:6px 8px;border:1px solid #d0dbe8;text-align:left;font-weight:600}
-.qa table td{padding:5px 8px;border:1px solid #d0dbe8}
-.none{text-align:center;padding:40px;color:#999;display:none}
-footer{text-align:center;padding:24px 20px;font-size:11px;color:#bbb}
-
-@media(max-width:600px){
-  #view-landing .hero h1{font-size:22px}
-  .product-card{padding:20px 16px}
-  .product-card h2{font-size:18px}
-  .pv-hero h2{font-size:18px}
-  .qh{font-size:13px;padding:12px 14px}
-  .qa{font-size:13px}.o .qa{padding:0 14px 10px}
-}
-</style>
-</head>
-<body>
-
-<!-- ====== VIEW: LANDING ====== -->
-<div id="view-landing">
-<div class="hero">
-  <h1>金赛产品信息平台</h1>
-  <p>基于产品资料与临床常见问题整理的内部参考问答库</p>
-</div>
-<div class="landing-wrap">
-  <div class="section-title">请选择产品</div>
-
-  <div class="product-card" onclick="showProduct('jinsaijia')">
-    <div class="accent p1"></div>
-    <h2>金赛佳®</h2>
-    <div class="sub">长效促卵泡素 · 绒促卵泡刺激素注射液</div>
-    <div class="desc">重组人促卵泡激素-Fc 融合蛋白，单次注射覆盖一周促排周期，显著简化和优化辅助生殖中的控制性卵巢刺激方案。</div>
-    <span class="tag">促排卵</span>
-    <span class="tag">长效rFSH</span>
-    <span class="tag">III期临床</span>
-    <div><button class="enter-btn b1">进入知识库 →</button></div>
-  </div>
-
-  <div class="product-card" onclick="showProduct('jinsaixin')">
-    <div class="accent p2"></div>
-    <h2>金赛欣®</h2>
-    <div class="sub">水溶性黄体酮 · 黄体酮注射液（II）</div>
-    <div class="desc">国内首仿水溶性黄体酮，皮下/肌肉注射，避免油剂不良反应与阴道给药不便，为国谈产品，性价比优越。</div>
-    <span class="tag">黄体支持</span>
-    <span class="tag">水溶制剂</span>
-    <span class="tag">国谈药品</span>
-    <div><button class="enter-btn b2">进入知识库 →</button></div>
-  </div>
-</div>
-<footer>仅供内部培训使用</footer>
-</div>
-
-<!-- ====== VIEW: 金赛佳 ====== -->
-<div id="view-jinsaijia" class="product-view">
-<div class="top-nav"><button class="btn-back" onclick="showLanding()">← 产品选择</button><div class="nav-title">金赛佳® 问答库 <span class="nav-sub">· 长效促卵泡素</span></div><div style="width:40px"></div></div>
-<div class="pv-hero h1"><h2>金赛佳® 产品问答库</h2><p>基于金赛佳产品资料与临床常见问题整理 | 仅供内部培训参考</p></div>
-<div class="pv-search"><input id="s1" placeholder="搜索关键词…" autocomplete="off"></div>
-<div class="pv-stats"><span>共 <span id="tot1">0</span> 个问题</span><span class="links" id="toc1"></span></div>
-<div class="pv-main" id="main1"></div>
-<div class="none" id="none1">没有找到匹配的问题，试试其他关键词</div>
-<footer>资料审批编号：MKT-CFA N02-2025-004 | 有效期：2025年10月-2027年10月</footer>
-</div>
-
-<!-- ====== VIEW: 金赛欣 ====== -->
-<div id="view-jinsaixin" class="product-view">
-<div class="top-nav"><button class="btn-back" onclick="showLanding()">← 产品选择</button><div class="nav-title">金赛欣® 问答库 <span class="nav-sub">· 水溶性黄体酮</span></div><div style="width:40px"></div></div>
-<div class="pv-hero h2"><h2>金赛欣® 产品问答库</h2><p>基于金赛欣推广手册与临床常见问题整理 | 仅供内部培训参考</p></div>
-<div class="pv-search"><input id="s2" placeholder="搜索关键词…" autocomplete="off"></div>
-<div class="pv-stats"><span>共 <span id="tot2">0</span> 个问题</span></div>
-<div class="pv-main" id="main2"></div>
-<div class="none" id="none2">没有找到匹配的问题，试试其他关键词</div>
-<footer>资料审批编号：MKT-JSX-2024-013 | 有效期：2024年9月-2026年9月</footer>
-</div>
-
-<script>
-// ====== DATA ======
-var curView = "";
-
-function showLanding() {
-  document.getElementById("view-landing").style.display = "block";
-  document.getElementById("view-jinsaijia").style.display = "none";
-  document.getElementById("view-jinsaixin").style.display = "none";
-  curView = "";
-}
-
-function showProduct(name) {
-  curView = name;
-  document.getElementById("view-landing").style.display = "none";
-  document.getElementById("view-jinsaijia").style.display = name === "jinsaijia" ? "block" : "none";
-  document.getElementById("view-jinsaixin").style.display = name === "jinsaixin" ? "block" : "none";
-  if (name === "jinsaijia") { build1(); initSearch1(); }
-  if (name === "jinsaixin") { build2(); initSearch2(); }
-}
-
-// ====== 金赛佳 DATA ======
-var items1 = [
-  ["产品基础", "金赛佳®是什么？它的作用机制是怎样的？"],
-  ["产品基础", "金赛佳®的适应证是什么？"],
-  ["产品基础", "金赛佳®的推荐用法用量是什么？"],
-  ["产品基础", "金赛佳®的使用禁忌有哪些？"],
-  ["产品基础", "金赛佳®常见不良反应有哪些？"],
-  ["产品基础", "使用金赛佳®过程中有哪些注意事项？"],
-  ["产品基础", "金赛佳®的规格、贮藏和有效期是什么？"],
-  ["药代动力学与临床优势", "金赛佳®与短效rFSH相比具有哪些药代动力学优势？"],
-  ["药代动力学与临床优势", "金赛佳®的I期临床试验结果如何？"],
-  ["药代动力学与临床优势", "金赛佳®的II期临床试验结果如何？"],
-  ["药代动力学与临床优势", "金赛佳®的III期临床研究设计及结局是怎样的？"],
-  ["临床常见顾虑与应对", "金赛佳®价格贵，性价比如何？"],
-  ["临床常见顾虑与应对", "使用金赛佳®会不会出现“打不起来”（非预期低反应）？"],
-  ["临床常见顾虑与应对", "使用金赛佳®会不会发生过度刺激（OHSS）？"],
-  ["临床常见顾虑与应对", "目前别的医院使用金赛佳®的情况怎么样？"],
-  ["临床常见顾虑与应对", "患者使用金赛佳®后，D5返院测激素FSH值偏低是什么原因？"],
-  ["临床常见顾虑与应对", "长效早期高FSH峰，会影响卵子质量（增加胚胎非整倍体率）吗？"],
-  ["临床常见顾虑与应对", "长效促排期间，是否需要通过监测血清FSH水平指导临床追加剂量？"],
-  ["临床常见顾虑与应对", "针对特殊人群（如POR患者），长效FSH如何应用？"],
-  ["产品比较", "金赛佳®和晟诺娃的研究设计有什么不同？"]
-,
-  ["注射指南", "金赛佳®注射操作单页"]
-];
-
-var qa1 = {
-  "金赛佳®是什么？它的作用机制是怎样的？": '<p><strong>金赛佳®（绒促卵泡刺激素ℴN02注射液）</strong>是经基因工程技术，将人促卵泡激素（hFSH）基因与人绒毛膜促性腺激素（hCG）的β亚基羧基末端肽（CTP）基因，通过中国仓鼠卵巢（CHO）细胞表达得到的绒促卵泡刺激素。</p><p>金赛佳®由α链和β链组成：</p><ul><li><strong>α链</strong>：与普通短效rFSH相同</li><li><strong>β链</strong>：在短效rFSH分子β链的基础上，连接了hCG的β链的CTP结构域</li></ul><p><strong>延长半衰期的机制</strong>：CTP结构域上多个位点含有O糖基化修饰，分子量增加和糖基化作用可减少肾脏排泄和肝脏摄取，从而显著延长金赛佳®在人体内的半衰期。CTP无二级结构，不影响蛋白质的折叠、受体结合及生物活性。</p><div class="nm">📸 金赛佳问与答0605 / 金赛佳PPT</div>',
-  "金赛佳®的适应证是什么？": '<p>在20岁以下（不包含20岁）的女性接受人类辅助生殖技术时，本品与促性腺激素释放激素（GnRH）拮抗剂联合使用，用于<strong>控制性卵巢刺激（COS）</strong>，以诱导多个卵泡发育。</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
-  "金赛佳®的推荐用法用量是什么？": '<p>应当在具有治疗生殖经验的医生指导下使用，本品用于<strong>皮下注射</strong>。</p><ul><li><strong>100μg 单次皮下注射</strong>：适用于年龄≤36岁且体重≤60 kg的女性</li><li><strong>150μg 单次皮下注射</strong>：适用于以下情况：<ul><li>体重&gt;60 kg的女性（不论年龄）</li><li>年龄&gt;36岁（&lt;40岁）且体重≤50 kg的女性</li></ul></li></ul><p>一针覆盖一周，单次注射后无需每日注射，显著简化促排流程。</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
-  "金赛佳®的使用禁忌有哪些？": '<p><strong>绝对禁忌：</strong></p><ul><li>对活性成份绒促卵泡刺激素ℴN02或任一辅料成份过敏</li><li>垂体和下丘脑肿瘤</li><li>卵巢、子宫或乳腺癌</li><li>不明原因的妇科出血（非经期）</li><li>非多囊卵巢疾病所引起的卵巢增大或囊肿</li><li>多囊卵巢综合征</li><li>曾有中度、重度OHSS病史者</li><li>既往COS周期中超声检查有超过30个直径≥11 mm的卵泡</li><li>基础卵巢窦卵泡数&gt;20个的患者</li><li>卟啉症患者或有卟啉症家族史的患者</li></ul><p><strong>当不能达到有效反应时禁用：</strong></p><ul><li>原发性卵巢功能衰竭</li><li>性器官畸形不可妊娠者</li><li>子宫纤维瘤不可妊娠者</li></ul><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
-  "金赛佳®常见不良反应有哪些？": '<p>两项临床研究（N=313）中，接受金赛佳®治疗期间最常见（&gt;1%）的不良反应为：</p><ul><li><strong>腹胀</strong>：9.6%</li><li><strong>腹痛</strong>：6.4%</li><li><strong>卵巢过度刺激综合征（OHSS）</strong>：4.8%</li><li><strong>恶心</strong>：3.9%</li><li><strong>呕吐</strong>：2.6%</li><li><strong>腹水</strong>：2.3%</li></ul><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
-  "使用金赛佳®过程中有哪些注意事项？": '<p><strong>用法限制：</strong></p><ul><li>在一个COS周期中，长效rFSH只用<strong>单次皮下注射</strong>，不应注射超过一次</li><li>使用长效rFSH后<strong>7日内</strong>，不应使用额外的其他含FSH的产品</li><li><strong>不推荐用GnRH激动剂方案</strong>：长效rFSH与GnRH激动剂联合使用的资料十分有限，不排除增加OHSS的风险</li></ul><p><strong>降低OHSS风险的措施：</strong></p><ul><li>避免促性腺激素进一步刺激</li><li>停止hCG给药并取消治疗周期</li><li>延后hCG给药，直到血清雌激素水平趋于稳定或明显下降</li><li>以低于10000 IU的hCG剂量给药诱导卵母细胞最终成熟</li><li>排卵前抽吸所有卵泡</li><li>取消当期促排周期胚胎移植，将所有胚胎冷冻</li></ul><p>严格遵守本品的推荐剂量和治疗方案并进行详细的治疗监测，可使OHSS发生率降至最低。</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
-  "金赛佳®的规格、贮藏和有效期是什么？": '<p><strong>规格：</strong>100μg/0.5 ml/支、150μg/0.5 ml/支</p><p><strong>性状：</strong>无色澄明液体</p><p><strong>包装：</strong>预灌封注射器组合件（带注射针），1支/盒</p><p><strong>贮藏：</strong></p><ul><li>于原包装内，2~8℃避光冷藏保存，不得冷冻</li><li>冷藏运输</li><li>可在25℃或25℃以下放置不超过1个月，不用应予丢弃</li></ul><p><strong>有效期：</strong>24个月</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
-  "金赛佳®与短效rFSH相比具有哪些药代动力学优势？": '<p><strong>半衰期显著延长：</strong></p><ul><li>金赛佳®消除半衰期约<strong>74~80小时</strong></li><li>短效rFSH消除半衰期约<strong>24小时</strong></li><li>金赛佳®半衰期是短效rFSH的<strong>约3倍</strong></li></ul><p><strong>达峰时间：</strong>中位Tmax在各剂量组间相当，在<strong>32.0~48.05小时</strong>内。</p><p><strong>暴露量：</strong>在10-200μg剂量范围内单次给药，暴露量（Cmax和AUC）随剂量递增而增加。</p><p><strong>体内浓度：</strong>金赛佳℠II期数据显示，用药7天内金赛佳®组rFSH血药浓度始终高于每日注射的短效rFSH组。</p><div class="nm">📸 I期临床试验 / III期临床试验 / 说明书</div>',
-  "金赛佳®的I期临床试验结果如何？": '<p><strong>研究设计：</strong>含4个剂量组（10μg、100μg、150μg、200μg），单次给药。</p><p><strong>主要结果：</strong></p><ul><li><strong>PK属性显著改善：</strong>暴露量（Cmax和AUC）随剂量递增而增加，中位Tmax在32.0~48.05 h内</li><li><strong>安全性和耐受性良好：</strong>所有与研究药物相关的TEAE严重程度均为1级，各组均无导致退出、暂停或死亡的TEAE，200μg尚未达到最大耐受剂量</li><li><strong>药效学：</strong>50-150μg剂量范围内，剂量越高，卵泡直径越大，FSH和E2水平越高，可促进卵泡生长发育</li></ul><div class="nm">📸 SAL016单次给药（剂量合并）补充分析报告（内部资料）</div>',
-  "金赛佳®的II期临床试验结果如何？": '<p><strong>研究设计：</strong>多中心、随机、开放、阳性对照研究，纳入了111例符合COS适应证拟进行IVF/ICSI治疗的中国女性不孕患者。</p><p><strong>主要结果：</strong></p><ul><li><strong>获卵数显著增加：</strong>金赛佳®组15.5个 vs rFSH组12.1个（P=0.014）</li><li><strong>妊娠结局：</strong>β-hCG阳性率（58.6% vs 50%）、临床妊娠率（55.7% vs 45.5%）、持续妊娠率（45.7% vs 36.4%）均较高，但无统计学差异（P&gt;0.05）</li><li><strong>半衰期延长约3.2倍：</strong>平均清除率下降约3.2倍（0.186 L/h vs 0.6 L/h），半衰期约76 h vs 24 h</li><li><strong>维持1周卵泡发育：</strong>金赛佳®组与rFSH组的E2浓度和抑制素B自给药后至HCG均呈逐渐升高趋势</li><li><strong>安全性和免疫原性良好：</strong>无死亡或退出TEAE，中重度OHSS发生率（2.6% vs 2.9%），所有受试者ADA均为阴性</li></ul><div class="nm">📸 II期研究临床试验报告（内部资料）</div>',
-  "金赛佳®的III期临床研究设计及结局是怎样的？": '<p><strong>研究设计：</strong>多中心、随机、双盲双模拟、阳性对照℠III期研究。</p><ul><li><strong>样本量：</strong>473例（金赛佳®组237例，短效rFSH组236例）</li><li><strong>纳入标准：</strong>年龄≤20岁且&lt;40岁，体重≤50 kg，BMI 19-28 kg/m²，卵巢储备功能正常</li><li><strong>主要终点：</strong>获卵数（非劣效界值⁻-3个）</li><li><strong>次要终点：</strong>临床妊娠率、持续妊娠率、MII卵率、受精率、胚胎质量等</li></ul><p><strong>研究结果：</strong></p><ul><li><strong>主要终点：</strong>金赛佳®组获卵数非劣效于短效rFSH，且安全性良好</li><li><strong>次要终点：</strong>金赛佳®组妊娠结局与短效rFSH相当</li><li><strong>卵泡发育：</strong>单次注射金赛佳®后卵泡发育情况与每天注射rFSH在D5和D8无明显差异</li></ul><p><strong>双盲双模拟设计优势：</strong>确保受试者和主要研究者处于盲态，良好控制实施偏倚和测量偏倚。</p><div class="nm">📸 Tingting Li, et al. (in press)</div>',
-  "金赛佳®价格贵，性价比如何？": '<p><strong>价格参考：</strong></p><ul><li>金赛佳®100μg：1780元，日治疗费用约683元/天</li><li>金赛佳®150μg：2519.76元，日治疗费用约931元/天</li></ul><p><strong>应对话术：</strong>促排费用不仅要考虑药品价格，还需考虑交通、时间等附加成本。金赛佳®可以减少注射次数、减少患者往返医院次数、减少检查次数、减轻患者注射负担。扣除以上附加成本，总体计算下来金赛佳®性价比更高。</p><div class="nm">📸 内部数据</div>',
-  "使用金赛佳®会不会出现“打不起来”（非预期低反应）？": '<p>IVF患者治疗过程中可能会发生非预期的低反应，但整体发生率不高。</p><ul><li>国外研究数据显示NOR人群使用长效rFSH非预期低反应发生率约为<strong>0.37%~1%</strong></li><li>金赛佳®II期临床研究中未发现金赛佳®组有因打不起来而取消周期的案例，且获卵数显著高于短效组</li><li>截至2026年5月28日，金赛佳®1月上市以来已有<strong>5300+患者</strong>使用，均未出现非预期低反应</li></ul><div class="nm">📸 III期临床研究 / 上市后数据（截至2026.5.28）</div>',
-  "使用金赛佳®会不会发生过度刺激（OHSS）？": '<p><strong>应对话术：</strong></p><ul><li>金赛佳®的III期临床数据显示，其OHSS发生率与短效rFSH<strong>相当</strong></li><li>如果出现过激趋势，临床医生可按照临床经验或说明书指导进行处理</li><li>长效rFSH优先推荐用于<strong>拮抗剂方案</strong>治疗下的NOR人群</li><li>注意使用长效rFSH时<strong>不额外添加</strong>其他含FSH的产品</li></ul><div class="nm">📸 III期临床研究</div>',
-  "目前别的医院使用金赛佳®的情况怎么样？": '<p>金赛佳®于2025年1月底获批，截至当前（截至2026年5月28日）：</p><ul><li>全国已有<strong>200+ IVF机构</strong>使用</li><li><strong>5300+患者</strong>尝试过金赛佳®进行治疗</li><li>目前使用较有心得的机构包括：<strong>中山六院、武汉同济、江苏省人民医院、浙妇保、苏大一</strong>等</li><li>未来可邀请以上中心临床医生进行经验分享</li></ul><div class="nm">📸 上市后数据（截至2026.5.28）</div>',
-  "患者使用金赛佳®后，D5返院测激素FSH值偏低是什么原因？": '<p><strong>可能原因：</strong></p><ul><li>不同试剂盒、不同厂家、不同抗体对、不同方法学，都可能导致浓度值检测有差异</li><li>金赛佳®（rFSH-CTP）分子结构上的<strong>CTP基团空间位阻</strong>可能会干扰检测抗体的结合，导致测得rFSH浓度偏低</li></ul><p><strong>临床建议：</strong>建议结合<strong>E2水平</strong>、<strong>卵泡生长发育情况</strong>、本院检测rFSH水平综合评估患者促排反应。如果卵泡发育和E2值均正常，单纯rFSH较低，很可能是因为检测原因导致的，无需过度担心。</p><div class="nm">📸 临床数据</div>',
-  "长效早期高FSH峰，会影响卵子质量（增加胚胎非整倍体率）吗？": '<p><strong>临床顾虑背景：</strong>部分动物实验提示过高浓度FSH可能干扰卵母细胞纺锤体与染色体的正常分离，因此临床医生担心长效rFSH早期高FSH峰是否会导致胚胎非整倍体率增加。</p><p><strong>中山六院PGT回顾数据：</strong></p><ul><li>PGT-A亚组：长效组非整倍体率<strong>54.73%</strong>，短效rFSH组<strong>57.85%</strong></li><li>PGT-M亚组：两组胚胎异常率同样<strong>相当</strong></li></ul><p><strong>临床启示：</strong>长效FSH（绒促卵泡刺激素ℴN02）的早期FSH峰能充分覆盖卵泡发育的关键窗口，在药效学上是有效的、临床上可控的，可能与胚胎非整倍体发生率增加<strong>无关</strong>。</p><div class="nm">📸 中山六院临床数据</div>',
-  "长效促排期间，是否需要通过监测血清FSH水平指导临床追加剂量？": '<p><strong>绝对不要。</strong></p><p><strong>原因解析：</strong>绒促卵泡刺激素ℴ为结构修饰的融合蛋白，不同商业免疫平台的抗体识别位点差异极大。同一份血样在西门子、雅培或罗氏等不同系统上检测，结果偏差可达<strong>4~7倍</strong>。如果这个数字被当作临床决策依据，极易误导加药或不加药的判断，反而打乱促排节奏。</p><p><strong>临床监测正解：</strong></p><ul><li>通过<strong>超声检测卵泡大小</strong>+<strong>E2数值检测</strong>，二者结合才是精准决策依据</li><li>超声能准确确定卵泡的大小</li><li>E2的变化轨迹能提供颗粒细胞增殖的关键功能信息</li><li>将形态学与动力学相结合是十分必要的</li></ul><div class="nm">📸 Webster R, et al. Ann Clin Biochem. 2010 / 梁晓燕教授临床经验</div>',
-  "针对特殊人群（如POR患者），长效FSH如何应用？": '<p><strong>临床痛点：</strong>卵巢低反应（POR）患者因卵巢储备低下，最大的痛点往往是因为发育停滞导致"周期取消"。</p><p><strong>个体化挽救案例（梁晓燕教授）：</strong></p><ul><li>患者：41岁，两次IVF失败，基础FSH 12.4 U/L，AFC仅1个，AMH 0.68 ng/mL</li><li>方案：经期第2天皮下注射金赛佳® 150μg，D5加GnRH拮抗剂，D7追加短效rFSH 225 IU/天</li><li>结局：成功避免周期取消，使治疗得以延续</li></ul><p><strong>队列研究证据：</strong>一项针对20岁以下年轻POR患者的队列研究显示，在拮抗剂方案中应用150μg长效rFSH + hp-HMG，相较于短效rFSH方案，<strong>成功获得冷冻胚胎的患者比例显著增加</strong>（P=0.04）。长效rFSH早期更强而持久的募集效应，可能恰为POR患者创造了跨越促排门槛的关键生殖希望。</p><div class="nm">📸 Drakopoulos P, et al. Hum Reprod. 2017 / 临床真实案例</div>',
-  "金赛佳®和晟诺娃的研究设计有什么不同？": '<table style="width:100%;border-collapse:collapse;font-size:13px;margin:6px 0"><tr style="background:#eef3f9"><th style="padding:8px 10px;border:1px solid #d0dbe8;text-align:left">项目</th><th style="padding:8px 10px;border:1px solid #d0dbe8;text-align:left">金赛佳®</th><th style="padding:8px 10px;border:1px solid #d0dbe8;text-align:left">晟诺娃®</th></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>年龄</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">≤20岁且&lt;40岁</td><td style="padding:6px 10px;border:1px solid #d0dbe8">≥20岁且≤35岁</td></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>体重</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">≤50 kg</td><td style="padding:6px 10px;border:1px solid #d0dbe8">≥45 kg</td></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>研究设计</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">多中心、随机、双盲双模拟、阳性对照</td><td style="padding:6px 10px;border:1px solid #d0dbe8">多中心、开放标签、阳性对照、随机</td></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>样本量</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">473例</td><td style="padding:6px 10px;border:1px solid #d0dbe8">283例</td></tr></table><p><strong>总结：</strong>金赛佳®研究覆盖年龄范围更广（&lt;40岁 vs ≤35岁），样本量更大，并采用双盲双模拟设计，严谨性更高。</p><div class="nm">📸 III期研究方案</div>'
-,
-  "金赛佳®注射操作单页": '<div style="margin:0 -4px"><img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page1.jpg" alt="注射操作指南" style="width:100%;max-width:600px;display:block;margin:0 auto 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)"><img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page2.jpg" alt="注射操作指南-续" style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)"><div class="nm" style="margin-top:10px">📘 金赛佳®注射操作单页-V2</div></div>'
-};
-
-// ====== 金赛欣 DATA ======
-var items2 = [
-  ["背景与注册", "金赛欣®是否有国内的三期临床研究数据？"],
-  ["背景与注册", "金赛欣®有哪些临床指南/共识推荐？"],
-  ["临床对比", "金赛欣®与油剂黄体酮的剂量等效关系和临床疗效对比如何？"],
-  ["临床对比", "金赛欣®与临床常用的阴塞黄体酮的临床疗效对比如何？"],
-  ["药代动力学", "金赛欣®注射后，能达到的血孕酮浓度是多少？"],
-  ["用药方案", "金赛欣®在鲜胚移植中的用药方案推荐"],
-  ["用药方案", "金赛欣®在冻胚移植方案中的用药推荐"],
-  ["安全性", "金赛欣®的安全性如何？"],
-  ["注射与使用", "如何减轻金赛欣®的注射疼痛及相关不良反应？"],
-  ["注射与使用", "金赛欣®储存条件说明"],
-  ["医保与经济", "关于金赛欣®的医保及价格问题"]
-,
-  ["注射指南", "金赛欣®注射操作单页"]
-];
-
-var qa2 = {
-  "金赛欣®是否有国内的三期临床研究数据？": '<p><strong>一句话回应：</strong>金赛欣是国内首仿，通过与原研药物的生物等效性研究（BE）获批上市，未做三期临床研究。</p><p><strong>回复话术详解：</strong></p><ul><li><strong>首仿，未做三期临床：</strong>金赛欣®是国内首个水溶性黄体酮仿制药，注册分类为化学药品3类，依据与原研水溶性黄体酮Lubion®对比的生物等效性研究获批上市。现已被纳入与原研药可相互替代药品目录，即《中国上市药品目录集》，视为已通过一致性评价。</li><li><strong>与原研生物等效：</strong>生物等效性研究结果显示，金赛欣®与原研水溶性黄体酮具有生物等效性，且安全性良好。主要PK参数AUC<sub>0-t</sub>、AUC<sub>0-∞</sub>、C<sub>max</sub>的几何均值比及其90%CI均落在可接受的等效范围80.00%~125.00%内，说明了其在人体中的吸收代谢与原研水溶性黄体酮相似。</li><li><strong>原研三期临床：</strong>原研水溶性黄体酮Lubion®的三期、前瞻性、开放标签、随机、对照、平行组、多中心、双臂、非劣效性研究，纳入欧洲683名ART新鲜移植周期患者，分为水溶性黄体酮（n=339，25mg/d）或阴道黄体酮凝胶（n=344，90mg/d）组，结果显示两组间持续妊娠率（29.2% vs. 31.2%，P=0.61）、分娩及活产率（28.5% vs. 30.5%，P=0.58）均无显著性差异，达到非劣效性终点。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014;101(1):112-119.e3 / GenSci070与Lubion®的BE试验结果报告</div>',
-  "金赛欣®有哪些临床指南/共识推荐？": '<p><strong>一句话回应：</strong>水溶性黄体酮受到生殖领域国际权威ESHRE指南推荐；因国内既往没有上市，因此暂无国内指南共识推荐。</p><p><strong>回复话术详解：</strong></p><ul><li><strong>原研国际证据充分：</strong>原研水溶性黄体酮Lubion®最早于2013年在英国获批上市，截至2022年10月已在全球50个国家上市及应用，包括中国台湾。在国际上已经积累了丰富的临床证据及经验。</li><li><strong>国际权威指南推荐：</strong>2020年欧洲人类生殖与胚胎学学会（ESHRE）指南推荐：水溶性黄体酮25mg，用于IVF/ICSI后黄体支持。与油剂黄体酮、阴道黄体酮凝胶、阴道黄体酮软胶囊处于同样的推荐地位。</li></ul><div class="nm">📸 Ovarian Stimulation TEGGO, et al. Hum Reprod Open. 2020 May 1;2020(2)_hoaa009</div>',
-  "金赛欣®与油剂黄体酮的剂量等效关系和临床疗效对比如何？": '<p><strong>一句话回应：</strong>药代动力学研究显示，水溶性黄体酮与油剂生物利用度相当，即25mg水剂在药物暴露量上等于25mg油剂；临床研究显示，在冻胚HRT研究中，水溶性黄体酮25mg bid与油剂50mg达到相同的临床结局。</p><p><strong>证据支持：</strong></p><ul><li><strong>药代学等效：</strong>一项Sator M等人2013年发表的研究，纳入24例绝经后健康志愿者，结果显示100mg水溶性黄体酮SC、100mg水溶性黄体酮IM与100mg油剂黄体酮IM的AUC等效（1884.62 vs 1919.39 vs 2097.12 ng/ml·h），在80-125%等效置信区间内。</li><li><strong>线性吸收：</strong>水溶性黄体酮的PK参数C<sub>max</sub>及AUC<sub>0-t</sub>均随给药剂量增加而线性增加。</li><li><strong>临床结局相当：</strong>一项Turgut EN等人2020年发表的回顾性研究，纳入507个冻胚HRT移植周期，结果显示25mg bid水溶性黄体酮和50mg油剂黄体酮两组间临床妊娠率（71.5% vs 71.6%，P=0.979）、活产率（62.7% vs 58.7%，P=0.404）均无统计学差异。</li></ul><div class="nm">📸 Sator M, et al. Gynecol Endocrinol. 2013 / Turgut EN, et al. Turk J Obstet Gynecol. 2020</div>',
-  "金赛欣®与临床常用的阴塞黄体酮的临床疗效对比如何？": '<p><strong>一句话回应：</strong>多项临床研究显示：新鲜周期，25mg水溶性黄体酮与90mg阴道凝胶（雪诺同）及200mg tid黄体酮软胶囊（安琪坦）疗效相当；冻胚HRT周期，25mg bid水溶性黄体酮，比90mg bid阴道凝胶疗效更优。</p><p><strong>证据支持：</strong></p><ul><li><strong>鲜胚移植：</strong>水溶性黄体酮25mg/d与阴道黄体酮凝胶90mg/d临床结局相当（持续妊娠率29.2% vs 31.2%，P=0.61）；与阴道黄体酮软胶囊200mg tid临床结局相当（临床妊娠率39.9% vs 36.5%，P=0.630）。</li><li><strong>冻胚人工周期：</strong>水溶性黄体酮25mg bid妊娠结局优于阴道黄体酮凝胶90mg bid（持续妊娠率54.0% vs 46.0%，P&lt;0.001；活产率47.6% vs 35.0%，P&lt;0.001）。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014 / Arzu YURCİ, et al. 2021 / Schütt M, et al. 2021</div>',
-  "金赛欣®注射后，能达到的血孕酮浓度是多少？": '<p><strong>一句话回应：</strong>临床研究显示，HRT周期应用25mg bid水溶性黄体酮，移植日平均血孕酮约为20ng/ml，但血孕酮值存在较大个体间差异。水溶性黄体酮因吸收更快，血药浓度呈现前高后低的特点。</p><p><strong>回复话术：</strong></p><ul><li><strong>不主动建议临床监测血孕酮值，引导关注临床结局。</strong></li><li><strong>血值个体差异：</strong>患者对药物的吸收代谢存在个体差异，血孕酮浓度存在患者个体间差异。</li><li><strong>临床研究血值：</strong>HRT-FET周期中，25mg bid水溶性黄体酮与50mg/d肌注黄体酮组，移植日血P水平相当（19.92ng/ml vs 21ng/ml，P=0.786）。</li><li><strong>药代学特点：</strong>健康绝经期女性单次皮下注射25mg，给药1h后平均C<sub>max</sub>为50.7±16.3ng/ml，多次皮下注射25mg/d约2天达到稳态，谷浓度为4.8±1.1ng/ml。快速达峰对于移植后阴道出血、腹痛及有先兆流产症状的患者能够更快发挥作用。</li></ul><div class="nm">📸 黄体酮注射液（II）说明书 / Turgut EN, et al. 2020 / Arzu YURCİ, et al. 2021</div>',
-  "金赛欣®在鲜胚移植中的用药方案推荐": '<p><strong>一句话回应：</strong>鲜胚移植中，单用25mg qd已足够，无需额外补充。金赛欣可作为黄体支持打底药物。</p><p><strong>回复话术：</strong></p><ul><li><strong>鲜胚方案：</strong>金赛欣单用即可，25mg qd皮下注射。从取卵日开始持续用至孕8-10周（或遵医嘱）。</li><li><strong>临床证据：</strong>研究显示，在鲜胚移植中，单用25mg qd水溶性黄体酮可以达到与单用90mg/d阴道黄体酮凝胶和200mg tid黄体酮软胶囊相当的临床妊娠率和持续妊娠率。</li><li><strong>用药优势：</strong>单次给药方便，患者依从性好，无阴道分泌物困扰。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014 / Schütt M, et al. 2021</div>',
-  "金赛欣®在冻胚移植方案中的用药推荐": '<p><strong>一句话回应：</strong>金赛欣是新一代黄体支持打底用药。冻胚HRT周期：25mg bid+口服地屈孕酮bid/tid；冻胚NC周期：25mg qd单用就够了。</p><p><strong>具体给药建议：</strong></p><p><strong>冻胚HRT − 联合方案（金赛欣打底+口服）：</strong></p><ul><li><strong>剂量：</strong>25mg bid + 口服bid/tid</li><li><strong>给药方式：</strong>自我注射（皮下打肚皮，早1次晚1次）或护士注射（肌注打屁股）</li><li><strong>用药时长：</strong>内膜转化日开始，持续用至孕8-10周</li></ul><p><strong>冻胚自然周期 − 金赛欣单用：</strong></p><ul><li><strong>剂量：</strong>25mg qd</li><li><strong>给药方式：</strong>皮下或肌注</li><li><strong>用药时长：</strong>排卵日/扳机日开始，持续用至孕6-8周</li></ul><p><strong>证据支持：</strong>多项研究显示，冻胚HRT周期中水溶性黄体酮25mg bid与50mg/d肌注油剂黄体酮临床结局相当，相比90mg bid阴道黄体酮凝胶达到相当或更优的临床结局。水溶性黄体酮保障药物高效吸收入血，同时避免油剂的不良反应。</p><div class="nm">📸 Turgut EN, et al. 2020 / Arzu YURCİ, et al. 2021 / Turkgeldi E, et al. 2020</div>',
-  "金赛欣®的安全性如何？": '<p><strong>一句话回应：</strong>金赛欣安全性良好，有效成份为天然黄体酮，与人体卵巢分泌的黄体酮一致，可显著减少注射硬结和阴道不良反应，患者使用倾向性优于阴塞。</p><p><strong>安全性数据：</strong></p><ul><li><strong>安全性良好：</strong>无论在鲜胚或冻胚移植周期中，多项研究均显示水溶性黄体酮安全性良好。</li><li><strong>注射部位反应少：</strong>水溶性黄体酮注射部位不良反应发生率较油剂显著更低（疼痛发生率7.2%，红肿、硬结发生率为2.07%）。</li><li><strong>阴道不良反应少：</strong>相比阴道黄体酮，水溶性黄体酮阴道不良反应（阴道刺激、炎症、干燥、瘙痒、分泌物或疼痛）发生率显著降低（10.4% vs. 50.8%，P&lt;0.0001）。</li><li><strong>患者偏好更优：</strong>水溶性黄体酮皮下注射具有方便省时、无阴道分泌物排出困扰、无药物漏出担忧、对两性生活影响更小等优势。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014 / 黄体酮注射液（II）说明书</div>',
-  "如何减轻金赛欣®的注射疼痛及相关不良反应？": '<p><strong>一句话回应：</strong>注射后疼痛为正常现象，个体间差异较大，通常在注射后10-30min左右出现，持续数小时至1天，通常可耐受。</p><p><strong>减轻疼痛秘诀：</strong>①单次给药，不超1支 ②腹部注射，全程捏皮 ③垂直进针，全部刺入 ④缓慢推注，保持匀速 ⑤拔针之后，无需按压</p><p><strong>详细建议：</strong></p><ul><li><strong>注射方式：</strong>首选肌肉注射（护士给药），自我注射选择腹部皮下注射</li><li><strong>腹部皮下注射：</strong>放松腹部，全程捏皮；90度垂直进针，针头全部刺入；减慢注射速度</li><li><strong>单次剂量：</strong>皮下注射不超过25mg，避免剂量增加加剧疼痛</li><li><strong>针头选择：</strong>皮下注射建议更换27G（0.4mm×13mm）小号针头；肌注用21G针头</li><li><strong>轮换部位：</strong>每次注射轮换区域，2次注射点间距2cm以上</li></ul><div class="nm">📸 王雨, 等. 中国实用护理杂志, 2023 / 临床经验反馈</div>',
-  "金赛欣®储存条件说明": '<p><strong>一句话回应：</strong>请按说明书要求保存，最适宜温度为8-25℃，严禁放入冰箱；加速和低温冻融试验显示，短期温度超过最适宜范围，不会影响药物质量。</p><p><strong>储存要求：</strong></p><ul><li>避光、密闭，不超过25℃保存</li><li>最佳储存条件为8-25℃阴凉处</li><li>严禁冷藏或冷冻</li><li><strong>加速稳定性试验：</strong>40℃±2℃、湿度75%RH±5%RH条件下考察6个月，检测结果均符合质量标准</li><li><strong>低温冻融试验：</strong>2-8℃与40℃±2℃交替（3次循环），检测结果均符合质量标准</li></ul><div class="nm">📸 黄体酮注射液（II）说明书 / 加速稳定性及低温冻融试验说明函</div>',
-  "关于金赛欣®的医保及价格问题": '<p><strong>一句话回应：</strong>金赛欣是唯一签署国谈协议的产品，按乙类医保报销，支付标准14.86元/瓶。</p><p><strong>医保信息：</strong></p><ul><li>金赛欣®成功通过2024年国家医保谈判，进入2024年新版国家医保目录（2025年1月1日起正式落地执行）</li><li>按医保乙类药品报销（具体以各地医保政策为准）</li><li>成为辅助生殖领域第一个国谈药品，也是唯一签署国谈协议的产品</li></ul><p><strong>价格优势：</strong>医保指导价14.86元/瓶（1.112ml:25mg）。相比阴道黄体酮凝胶约70元/支/日、黄体酮软胶囊约17元/日、口服地屈孕酮16元/日，价格最低，剂型最新，为各剂型黄体支持药物中性价比的天花板。报销后患者每日自费金额仅个位数。</p><div class="nm">📸 2024年国家医保目录 / 内部数据</div>'
-,
-  "金赛欣®注射操作单页": '<div style="margin:0 -4px"><img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page1.jpg" alt="注射操作指南" style="width:100%;max-width:600px;display:block;margin:0 auto 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)"><img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page2.jpg" alt="注射操作指南-续" style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)"><div class="nm" style="margin-top:10px">📘 金赛欣®注射操作单页-V2</div></div>'
-};
-
-// ====== Build Functions ======
-function build1() {
-  var m = document.getElementById("main1");
-  var cats = [...new Set(items1.map(function(i){return i[0]}))];
-  var html = "";
-  cats.forEach(function(c, idx){
-    html += '<div class="cat c1" id="c1-'+idx+'">'+c+'</div>';
-    items1.forEach(function(i){
-      if(i[0] === c){
-        html += '<div class="q" data-q="'+i[1]+'"><div class="qh"><span>'+i[1]+'</span><span class="ar">▾</span></div><div class="qa">'+qa1[i[1]]+'</div></div>';
-      }
-    });
-  });
-  m.innerHTML = html;
-  document.getElementById("tot1").textContent = items1.length;
-
-  // TOC
-  var toc = document.getElementById("toc1");
-  var tocHtml = "";
-  cats.forEach(function(c, idx){
-    tocHtml += '<a class="l1" href="#c1-'+idx+'">'+c+'</a>';
-  });
-  toc.innerHTML = tocHtml;
-
-  // Accordion
-  m.addEventListener("click", function(e){
-    var h = e.target.closest(".qh");
-    if(h) h.parentElement.classList.toggle("o");
-  });
-}
-
-function build2() {
-  var m = document.getElementById("main2");
-  var cats = [...new Set(items2.map(function(i){return i[0]}))];
-  var html = "";
-  cats.forEach(function(c, idx){
-    html += '<div class="cat c2" id="c2-'+idx+'">'+c+'</div>';
-    items2.forEach(function(i){
-      if(i[0] === c){
-        var qEsc = i[1].replace(/'/g, "\'");
-        html += '<div class="q" data-q="'+qEsc+'"><div class="qh"><span>'+i[1]+'</span><span class="ar">▾</span></div><div class="qa">'+qa2[i[1]]+'</div></div>';
-      }
-    });
-  });
-  m.innerHTML = html;
-  document.getElementById("tot2").textContent = items2.length;
-
-  m.addEventListener("click", function(e){
-    var h = e.target.closest(".qh");
-    if(h) h.parentElement.classList.toggle("o");
-  });
-}
-
-// ====== Search ======
-function initSearch1() {
-  document.getElementById("s1").addEventListener("input", function(){
-    var q = this.value.trim().toLowerCase();
-    var divs = document.querySelectorAll("#main1 .q");
-    var n = 0;
-    divs.forEach(function(d){
-      var match = !q || d.getAttribute("data-q").toLowerCase().indexOf(q) !== -1 || d.querySelector(".qa").textContent.toLowerCase().indexOf(q) !== -1;
-      d.style.display = match ? "" : "none";
-      if(match) n++;
-    });
-    document.getElementById("tot1").textContent = n;
-    document.getElementById("none1").style.display = n ? "none" : "block";
-  });
-}
-
-function initSearch2() {
-  document.getElementById("s2").addEventListener("input", function(){
-    var q = this.value.trim().toLowerCase();
-    var divs = document.querySelectorAll("#main2 .q");
-    var n = 0;
-    divs.forEach(function(d){
-      var match = !q || d.getAttribute("data-q").toLowerCase().indexOf(q) !== -1 || d.querySelector(".qa").textContent.toLowerCase().indexOf(q) !== -1;
-      d.style.display = match ? "" : "none";
-      if(match) n++;
-    });
-    document.getElementById("tot2").textContent = n;
-    document.getElementById("none2").style.display = n ? "none" : "block";
-  });
-}
-
-// Init: show landing by default
-showLanding();
-</script>
-</body>
+</style>
+</head>
+<body>
+
+<!-- ====== VIEW: LANDING ====== -->
+<div id="view-landing">
+<div class="hero">
+  <h1>金赛产品信息平台</h1>
+  <p>基于产品资料与临床常见问题整理的内部参考问答库</p>
+</div>
+<div class="landing-wrap">
+  <div class="section-title">请选择产品</div>
+
+  <div class="product-card" onclick="showProduct('jinsaijia')">
+    <div class="accent p1"></div>
+    <h2>金赛佳®</h2>
+    <div class="sub">长效促卵泡素 · 绒促卵泡刺激素注射液</div>
+    <div class="desc">重组人促卵泡激素-Fc 融合蛋白，单次注射覆盖一周促排周期，显著简化和优化辅助生殖中的控制性卵巢刺激方案。</div>
+    <span class="tag">促排卵</span>
+    <span class="tag">长效rFSH</span>
+    <span class="tag">III期临床</span>
+    <div><button class="enter-btn b1">进入知识库 →</button></div>
+  </div>
+
+  <div class="product-card" onclick="showProduct('jinsaixin')">
+    <div class="accent p2"></div>
+    <h2>金赛欣®</h2>
+    <div class="sub">水溶性黄体酮 · 黄体酮注射液（II）</div>
+    <div class="desc">国内首仿水溶性黄体酮，皮下/肌肉注射，避免油剂不良反应与阴道给药不便，为国谈产品，性价比优越。</div>
+    <span class="tag">黄体支持</span>
+    <span class="tag">水溶制剂</span>
+    <span class="tag">国谈药品</span>
+    <div><button class="enter-btn b2">进入知识库 →</button></div>
+  </div>
+</div>
+<footer>仅供内部培训使用</footer>
+</div>
+
+<!-- ====== VIEW: 金赛佳 ====== -->
+<div id="view-jinsaijia" class="product-view">
+<div class="top-nav"><button class="btn-back" onclick="showLanding()">← 产品选择</button><div class="nav-title">金赛佳® 问答库 <span class="nav-sub">· 长效促卵泡素</span></div><div style="width:40px"></div></div>
+<div class="pv-hero h1"><h2>金赛佳® 产品问答库</h2><p>基于金赛佳产品资料与临床常见问题整理 | 仅供内部培训参考</p></div>
+<div class="pv-search"><input id="s1" placeholder="搜索关键词…" autocomplete="off"></div>
+<div class="pv-stats"><span>共 <span id="tot1">0</span> 个问题</span><span class="links" id="toc1"></span></div>
+<div class="pv-main" id="main1"></div>
+<div class="none" id="none1">没有找到匹配的问题，试试其他关键词</div>
+<footer>资料审批编号：MKT-CFA N02-2025-004 | 有效期：2025年10月-2027年10月</footer>
+</div>
+
+<!-- ====== VIEW: 金赛欣 ====== -->
+<div id="view-jinsaixin" class="product-view">
+<div class="top-nav"><button class="btn-back" onclick="showLanding()">← 产品选择</button><div class="nav-title">金赛欣® 问答库 <span class="nav-sub">· 水溶性黄体酮</span></div><div style="width:40px"></div></div>
+<div class="pv-hero h2"><h2>金赛欣® 产品问答库</h2><p>基于金赛欣推广手册与临床常见问题整理 | 仅供内部培训参考</p></div>
+<div class="pv-search"><input id="s2" placeholder="搜索关键词…" autocomplete="off"></div>
+<div class="pv-stats"><span>共 <span id="tot2">0</span> 个问题</span></div>
+<div class="pv-main" id="main2"></div>
+<div class="none" id="none2">没有找到匹配的问题，试试其他关键词</div>
+<footer>资料审批编号：MKT-JSX-2024-013 | 有效期：2024年9月-2026年9月</footer>
+</div>
+
+<script>
+// ====== DATA ======
+var curView = "";
+
+function showLanding() {
+  document.getElementById("view-landing").style.display = "block";
+  document.getElementById("view-jinsaijia").style.display = "none";
+  document.getElementById("view-jinsaixin").style.display = "none";
+  curView = "";
+}
+
+function showProduct(name) {
+  curView = name;
+  document.getElementById("view-landing").style.display = "none";
+  document.getElementById("view-jinsaijia").style.display = name === "jinsaijia" ? "block" : "none";
+  document.getElementById("view-jinsaixin").style.display = name === "jinsaixin" ? "block" : "none";
+  if (name === "jinsaijia") { build1(); initSearch1(); }
+  if (name === "jinsaixin") { build2(); initSearch2(); }
+}
+
+// ====== 金赛佳 DATA ======
+var items1 = [
+  ["产品基础", "金赛佳®是什么？它的作用机制是怎样的？"],
+  ["产品基础", "金赛佳®的适应证是什么？"],
+  ["产品基础", "金赛佳®的推荐用法用量是什么？"],
+  ["产品基础", "金赛佳®的使用禁忌有哪些？"],
+  ["产品基础", "金赛佳®常见不良反应有哪些？"],
+  ["产品基础", "使用金赛佳®过程中有哪些注意事项？"],
+  ["产品基础", "金赛佳®的规格、贮藏和有效期是什么？"],
+  ["药代动力学与临床优势", "金赛佳®与短效rFSH相比具有哪些药代动力学优势？"],
+  ["药代动力学与临床优势", "金赛佳®的I期临床试验结果如何？"],
+  ["药代动力学与临床优势", "金赛佳®的II期临床试验结果如何？"],
+  ["药代动力学与临床优势", "金赛佳®的III期临床研究设计及结局是怎样的？"],
+  ["临床常见顾虑与应对", "金赛佳®价格贵，性价比如何？"],
+  ["临床常见顾虑与应对", "使用金赛佳®会不会出现“打不起来”（非预期低反应）？"],
+  ["临床常见顾虑与应对", "使用金赛佳®会不会发生过度刺激（OHSS）？"],
+  ["临床常见顾虑与应对", "目前别的医院使用金赛佳®的情况怎么样？"],
+  ["临床常见顾虑与应对", "患者使用金赛佳®后，D5返院测激素FSH值偏低是什么原因？"],
+  ["临床常见顾虑与应对", "长效早期高FSH峰，会影响卵子质量（增加胚胎非整倍体率）吗？"],
+  ["临床常见顾虑与应对", "长效促排期间，是否需要通过监测血清FSH水平指导临床追加剂量？"],
+  ["临床常见顾虑与应对", "针对特殊人群（如POR患者），长效FSH如何应用？"],
+  ["产品比较", "金赛佳®和晟诺娃的研究设计有什么不同？"]
+,
+  ["注射指南", "金赛佳®注射操作单页"]
+];
+
+var qa1 = {
+  "金赛佳®是什么？它的作用机制是怎样的？": '<p><strong>金赛佳®（绒促卵泡刺激素ℴN02注射液）</strong>是经基因工程技术，将人促卵泡激素（hFSH）基因与人绒毛膜促性腺激素（hCG）的β亚基羧基末端肽（CTP）基因，通过中国仓鼠卵巢（CHO）细胞表达得到的绒促卵泡刺激素。</p><p>金赛佳®由α链和β链组成：</p><ul><li><strong>α链</strong>：与普通短效rFSH相同</li><li><strong>β链</strong>：在短效rFSH分子β链的基础上，连接了hCG的β链的CTP结构域</li></ul><p><strong>延长半衰期的机制</strong>：CTP结构域上多个位点含有O糖基化修饰，分子量增加和糖基化作用可减少肾脏排泄和肝脏摄取，从而显著延长金赛佳®在人体内的半衰期。CTP无二级结构，不影响蛋白质的折叠、受体结合及生物活性。</p><div class="nm">📸 金赛佳问与答0605 / 金赛佳PPT</div>',
+  "金赛佳®的适应证是什么？": '<p>在20岁以下（不包含20岁）的女性接受人类辅助生殖技术时，本品与促性腺激素释放激素（GnRH）拮抗剂联合使用，用于<strong>控制性卵巢刺激（COS）</strong>，以诱导多个卵泡发育。</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
+  "金赛佳®的推荐用法用量是什么？": '<p>应当在具有治疗生殖经验的医生指导下使用，本品用于<strong>皮下注射</strong>。</p><ul><li><strong>100μg 单次皮下注射</strong>：适用于年龄≤36岁且体重≤60 kg的女性</li><li><strong>150μg 单次皮下注射</strong>：适用于以下情况：<ul><li>体重&gt;60 kg的女性（不论年龄）</li><li>年龄&gt;36岁（&lt;40岁）且体重≤50 kg的女性</li></ul></li></ul><p>一针覆盖一周，单次注射后无需每日注射，显著简化促排流程。</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
+  "金赛佳®的使用禁忌有哪些？": '<p><strong>绝对禁忌：</strong></p><ul><li>对活性成份绒促卵泡刺激素ℴN02或任一辅料成份过敏</li><li>垂体和下丘脑肿瘤</li><li>卵巢、子宫或乳腺癌</li><li>不明原因的妇科出血（非经期）</li><li>非多囊卵巢疾病所引起的卵巢增大或囊肿</li><li>多囊卵巢综合征</li><li>曾有中度、重度OHSS病史者</li><li>既往COS周期中超声检查有超过30个直径≥11 mm的卵泡</li><li>基础卵巢窦卵泡数&gt;20个的患者</li><li>卟啉症患者或有卟啉症家族史的患者</li></ul><p><strong>当不能达到有效反应时禁用：</strong></p><ul><li>原发性卵巢功能衰竭</li><li>性器官畸形不可妊娠者</li><li>子宫纤维瘤不可妊娠者</li></ul><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
+  "金赛佳®常见不良反应有哪些？": '<p>两项临床研究（N=313）中，接受金赛佳®治疗期间最常见（&gt;1%）的不良反应为：</p><ul><li><strong>腹胀</strong>：9.6%</li><li><strong>腹痛</strong>：6.4%</li><li><strong>卵巢过度刺激综合征（OHSS）</strong>：4.8%</li><li><strong>恶心</strong>：3.9%</li><li><strong>呕吐</strong>：2.6%</li><li><strong>腹水</strong>：2.3%</li></ul><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
+  "使用金赛佳®过程中有哪些注意事项？": '<p><strong>用法限制：</strong></p><ul><li>在一个COS周期中，长效rFSH只用<strong>单次皮下注射</strong>，不应注射超过一次</li><li>使用长效rFSH后<strong>7日内</strong>，不应使用额外的其他含FSH的产品</li><li><strong>不推荐用GnRH激动剂方案</strong>：长效rFSH与GnRH激动剂联合使用的资料十分有限，不排除增加OHSS的风险</li></ul><p><strong>降低OHSS风险的措施：</strong></p><ul><li>避免促性腺激素进一步刺激</li><li>停止hCG给药并取消治疗周期</li><li>延后hCG给药，直到血清雌激素水平趋于稳定或明显下降</li><li>以低于10000 IU的hCG剂量给药诱导卵母细胞最终成熟</li><li>排卵前抽吸所有卵泡</li><li>取消当期促排周期胚胎移植，将所有胚胎冷冻</li></ul><p>严格遵守本品的推荐剂量和治疗方案并进行详细的治疗监测，可使OHSS发生率降至最低。</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
+  "金赛佳®的规格、贮藏和有效期是什么？": '<p><strong>规格：</strong>100μg/0.5 ml/支、150μg/0.5 ml/支</p><p><strong>性状：</strong>无色澄明液体</p><p><strong>包装：</strong>预灌封注射器组合件（带注射针），1支/盒</p><p><strong>贮藏：</strong></p><ul><li>于原包装内，2~8℃避光冷藏保存，不得冷冻</li><li>冷藏运输</li><li>可在25℃或25℃以下放置不超过1个月，不用应予丢弃</li></ul><p><strong>有效期：</strong>24个月</p><div class="nm">📸 绒促卵泡刺激素ℴN02注射液说明书</div>',
+  "金赛佳®与短效rFSH相比具有哪些药代动力学优势？": '<p><strong>半衰期显著延长：</strong></p><ul><li>金赛佳®消除半衰期约<strong>74~80小时</strong></li><li>短效rFSH消除半衰期约<strong>24小时</strong></li><li>金赛佳®半衰期是短效rFSH的<strong>约3倍</strong></li></ul><p><strong>达峰时间：</strong>中位Tmax在各剂量组间相当，在<strong>32.0~48.05小时</strong>内。</p><p><strong>暴露量：</strong>在10-200μg剂量范围内单次给药，暴露量（Cmax和AUC）随剂量递增而增加。</p><p><strong>体内浓度：</strong>金赛佳℠II期数据显示，用药7天内金赛佳®组rFSH血药浓度始终高于每日注射的短效rFSH组。</p><div class="nm">📸 I期临床试验 / III期临床试验 / 说明书</div>',
+  "金赛佳®的I期临床试验结果如何？": '<p><strong>研究设计：</strong>含4个剂量组（10μg、100μg、150μg、200μg），单次给药。</p><p><strong>主要结果：</strong></p><ul><li><strong>PK属性显著改善：</strong>暴露量（Cmax和AUC）随剂量递增而增加，中位Tmax在32.0~48.05 h内</li><li><strong>安全性和耐受性良好：</strong>所有与研究药物相关的TEAE严重程度均为1级，各组均无导致退出、暂停或死亡的TEAE，200μg尚未达到最大耐受剂量</li><li><strong>药效学：</strong>50-150μg剂量范围内，剂量越高，卵泡直径越大，FSH和E2水平越高，可促进卵泡生长发育</li></ul><div class="nm">📸 SAL016单次给药（剂量合并）补充分析报告（内部资料）</div>',
+  "金赛佳®的II期临床试验结果如何？": '<p><strong>研究设计：</strong>多中心、随机、开放、阳性对照研究，纳入了111例符合COS适应证拟进行IVF/ICSI治疗的中国女性不孕患者。</p><p><strong>主要结果：</strong></p><ul><li><strong>获卵数显著增加：</strong>金赛佳®组15.5个 vs rFSH组12.1个（P=0.014）</li><li><strong>妊娠结局：</strong>β-hCG阳性率（58.6% vs 50%）、临床妊娠率（55.7% vs 45.5%）、持续妊娠率（45.7% vs 36.4%）均较高，但无统计学差异（P&gt;0.05）</li><li><strong>半衰期延长约3.2倍：</strong>平均清除率下降约3.2倍（0.186 L/h vs 0.6 L/h），半衰期约76 h vs 24 h</li><li><strong>维持1周卵泡发育：</strong>金赛佳®组与rFSH组的E2浓度和抑制素B自给药后至HCG均呈逐渐升高趋势</li><li><strong>安全性和免疫原性良好：</strong>无死亡或退出TEAE，中重度OHSS发生率（2.6% vs 2.9%），所有受试者ADA均为阴性</li></ul><div class="nm">📸 II期研究临床试验报告（内部资料）</div>',
+  "金赛佳®的III期临床研究设计及结局是怎样的？": '<p><strong>研究设计：</strong>多中心、随机、双盲双模拟、阳性对照℠III期研究。</p><ul><li><strong>样本量：</strong>473例（金赛佳®组237例，短效rFSH组236例）</li><li><strong>纳入标准：</strong>年龄≤20岁且&lt;40岁，体重≤50 kg，BMI 19-28 kg/m²，卵巢储备功能正常</li><li><strong>主要终点：</strong>获卵数（非劣效界值⁻-3个）</li><li><strong>次要终点：</strong>临床妊娠率、持续妊娠率、MII卵率、受精率、胚胎质量等</li></ul><p><strong>研究结果：</strong></p><ul><li><strong>主要终点：</strong>金赛佳®组获卵数非劣效于短效rFSH，且安全性良好</li><li><strong>次要终点：</strong>金赛佳®组妊娠结局与短效rFSH相当</li><li><strong>卵泡发育：</strong>单次注射金赛佳®后卵泡发育情况与每天注射rFSH在D5和D8无明显差异</li></ul><p><strong>双盲双模拟设计优势：</strong>确保受试者和主要研究者处于盲态，良好控制实施偏倚和测量偏倚。</p><div class="nm">📸 Tingting Li, et al. (in press)</div>',
+  "金赛佳®价格贵，性价比如何？": '<p><strong>价格参考：</strong></p><ul><li>金赛佳®100μg：1780元，日治疗费用约683元/天</li><li>金赛佳®150μg：2519.76元，日治疗费用约931元/天</li></ul><p><strong>应对话术：</strong>促排费用不仅要考虑药品价格，还需考虑交通、时间等附加成本。金赛佳®可以减少注射次数、减少患者往返医院次数、减少检查次数、减轻患者注射负担。扣除以上附加成本，总体计算下来金赛佳®性价比更高。</p><div class="nm">📸 内部数据</div>',
+  "使用金赛佳®会不会出现“打不起来”（非预期低反应）？": '<p>IVF患者治疗过程中可能会发生非预期的低反应，但整体发生率不高。</p><ul><li>国外研究数据显示NOR人群使用长效rFSH非预期低反应发生率约为<strong>0.37%~1%</strong></li><li>金赛佳®II期临床研究中未发现金赛佳®组有因打不起来而取消周期的案例，且获卵数显著高于短效组</li><li>截至2026年5月28日，金赛佳®1月上市以来已有<strong>5300+患者</strong>使用，均未出现非预期低反应</li></ul><div class="nm">📸 III期临床研究 / 上市后数据（截至2026.5.28）</div>',
+  "使用金赛佳®会不会发生过度刺激（OHSS）？": '<p><strong>应对话术：</strong></p><ul><li>金赛佳®的III期临床数据显示，其OHSS发生率与短效rFSH<strong>相当</strong></li><li>如果出现过激趋势，临床医生可按照临床经验或说明书指导进行处理</li><li>长效rFSH优先推荐用于<strong>拮抗剂方案</strong>治疗下的NOR人群</li><li>注意使用长效rFSH时<strong>不额外添加</strong>其他含FSH的产品</li></ul><div class="nm">📸 III期临床研究</div>',
+  "目前别的医院使用金赛佳®的情况怎么样？": '<p>金赛佳®于2025年1月底获批，截至当前（截至2026年5月28日）：</p><ul><li>全国已有<strong>200+ IVF机构</strong>使用</li><li><strong>5300+患者</strong>尝试过金赛佳®进行治疗</li><li>目前使用较有心得的机构包括：<strong>中山六院、武汉同济、江苏省人民医院、浙妇保、苏大一</strong>等</li><li>未来可邀请以上中心临床医生进行经验分享</li></ul><div class="nm">📸 上市后数据（截至2026.5.28）</div>',
+  "患者使用金赛佳®后，D5返院测激素FSH值偏低是什么原因？": '<p><strong>可能原因：</strong></p><ul><li>不同试剂盒、不同厂家、不同抗体对、不同方法学，都可能导致浓度值检测有差异</li><li>金赛佳®（rFSH-CTP）分子结构上的<strong>CTP基团空间位阻</strong>可能会干扰检测抗体的结合，导致测得rFSH浓度偏低</li></ul><p><strong>临床建议：</strong>建议结合<strong>E2水平</strong>、<strong>卵泡生长发育情况</strong>、本院检测rFSH水平综合评估患者促排反应。如果卵泡发育和E2值均正常，单纯rFSH较低，很可能是因为检测原因导致的，无需过度担心。</p><div class="nm">📸 临床数据</div>',
+  "长效早期高FSH峰，会影响卵子质量（增加胚胎非整倍体率）吗？": '<p><strong>临床顾虑背景：</strong>部分动物实验提示过高浓度FSH可能干扰卵母细胞纺锤体与染色体的正常分离，因此临床医生担心长效rFSH早期高FSH峰是否会导致胚胎非整倍体率增加。</p><p><strong>中山六院PGT回顾数据：</strong></p><ul><li>PGT-A亚组：长效组非整倍体率<strong>54.73%</strong>，短效rFSH组<strong>57.85%</strong></li><li>PGT-M亚组：两组胚胎异常率同样<strong>相当</strong></li></ul><p><strong>临床启示：</strong>长效FSH（绒促卵泡刺激素ℴN02）的早期FSH峰能充分覆盖卵泡发育的关键窗口，在药效学上是有效的、临床上可控的，可能与胚胎非整倍体发生率增加<strong>无关</strong>。</p><div class="nm">📸 中山六院临床数据</div>',
+  "长效促排期间，是否需要通过监测血清FSH水平指导临床追加剂量？": '<p><strong>绝对不要。</strong></p><p><strong>原因解析：</strong>绒促卵泡刺激素ℴ为结构修饰的融合蛋白，不同商业免疫平台的抗体识别位点差异极大。同一份血样在西门子、雅培或罗氏等不同系统上检测，结果偏差可达<strong>4~7倍</strong>。如果这个数字被当作临床决策依据，极易误导加药或不加药的判断，反而打乱促排节奏。</p><p><strong>临床监测正解：</strong></p><ul><li>通过<strong>超声检测卵泡大小</strong>+<strong>E2数值检测</strong>，二者结合才是精准决策依据</li><li>超声能准确确定卵泡的大小</li><li>E2的变化轨迹能提供颗粒细胞增殖的关键功能信息</li><li>将形态学与动力学相结合是十分必要的</li></ul><div class="nm">📸 Webster R, et al. Ann Clin Biochem. 2010 / 梁晓燕教授临床经验</div>',
+  "针对特殊人群（如POR患者），长效FSH如何应用？": '<p><strong>临床痛点：</strong>卵巢低反应（POR）患者因卵巢储备低下，最大的痛点往往是因为发育停滞导致"周期取消"。</p><p><strong>个体化挽救案例（梁晓燕教授）：</strong></p><ul><li>患者：41岁，两次IVF失败，基础FSH 12.4 U/L，AFC仅1个，AMH 0.68 ng/mL</li><li>方案：经期第2天皮下注射金赛佳® 150μg，D5加GnRH拮抗剂，D7追加短效rFSH 225 IU/天</li><li>结局：成功避免周期取消，使治疗得以延续</li></ul><p><strong>队列研究证据：</strong>一项针对20岁以下年轻POR患者的队列研究显示，在拮抗剂方案中应用150μg长效rFSH + hp-HMG，相较于短效rFSH方案，<strong>成功获得冷冻胚胎的患者比例显著增加</strong>（P=0.04）。长效rFSH早期更强而持久的募集效应，可能恰为POR患者创造了跨越促排门槛的关键生殖希望。</p><div class="nm">📸 Drakopoulos P, et al. Hum Reprod. 2017 / 临床真实案例</div>',
+  "金赛佳®和晟诺娃的研究设计有什么不同？": '<table style="width:100%;border-collapse:collapse;font-size:13px;margin:6px 0"><tr style="background:#eef3f9"><th style="padding:8px 10px;border:1px solid #d0dbe8;text-align:left">项目</th><th style="padding:8px 10px;border:1px solid #d0dbe8;text-align:left">金赛佳®</th><th style="padding:8px 10px;border:1px solid #d0dbe8;text-align:left">晟诺娃®</th></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>年龄</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">≤20岁且&lt;40岁</td><td style="padding:6px 10px;border:1px solid #d0dbe8">≥20岁且≤35岁</td></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>体重</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">≤50 kg</td><td style="padding:6px 10px;border:1px solid #d0dbe8">≥45 kg</td></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>研究设计</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">多中心、随机、双盲双模拟、阳性对照</td><td style="padding:6px 10px;border:1px solid #d0dbe8">多中心、开放标签、阳性对照、随机</td></tr><tr><td style="padding:6px 10px;border:1px solid #d0dbe8"><strong>样本量</strong></td><td style="padding:6px 10px;border:1px solid #d0dbe8">473例</td><td style="padding:6px 10px;border:1px solid #d0dbe8">283例</td></tr></table><p><strong>总结：</strong>金赛佳®研究覆盖年龄范围更广（&lt;40岁 vs ≤35岁），样本量更大，并采用双盲双模拟设计，严谨性更高。</p><div class="nm">📸 III期研究方案</div>'
+,
+  "金赛佳®注射操作单页": '<div style="margin:0 -4px">
+<img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page1.jpg" alt="注射操作指南" style="width:100%;max-width:600px;display:block;margin:0 auto 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+<img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page2.jpg" alt="注射操作指南-续" style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+<div class="nm" style="margin-top:10px">📘 金赛佳®注射操作单页-V2</div></div>'
+};
+
+// ====== 金赛欣 DATA ======
+var items2 = [
+  ["背景与注册", "金赛欣®是否有国内的三期临床研究数据？"],
+  ["背景与注册", "金赛欣®有哪些临床指南/共识推荐？"],
+  ["临床对比", "金赛欣®与油剂黄体酮的剂量等效关系和临床疗效对比如何？"],
+  ["临床对比", "金赛欣®与临床常用的阴塞黄体酮的临床疗效对比如何？"],
+  ["药代动力学", "金赛欣®注射后，能达到的血孕酮浓度是多少？"],
+  ["用药方案", "金赛欣®在鲜胚移植中的用药方案推荐"],
+  ["用药方案", "金赛欣®在冻胚移植方案中的用药推荐"],
+  ["安全性", "金赛欣®的安全性如何？"],
+  ["注射与使用", "如何减轻金赛欣®的注射疼痛及相关不良反应？"],
+  ["注射与使用", "金赛欣®储存条件说明"],
+  ["医保与经济", "关于金赛欣®的医保及价格问题"]
+,
+  ["注射指南", "金赛欣®注射操作单页"]
+];
+
+var qa2 = {
+  "金赛欣®是否有国内的三期临床研究数据？": '<p><strong>一句话回应：</strong>金赛欣是国内首仿，通过与原研药物的生物等效性研究（BE）获批上市，未做三期临床研究。</p><p><strong>回复话术详解：</strong></p><ul><li><strong>首仿，未做三期临床：</strong>金赛欣®是国内首个水溶性黄体酮仿制药，注册分类为化学药品3类，依据与原研水溶性黄体酮Lubion®对比的生物等效性研究获批上市。现已被纳入与原研药可相互替代药品目录，即《中国上市药品目录集》，视为已通过一致性评价。</li><li><strong>与原研生物等效：</strong>生物等效性研究结果显示，金赛欣®与原研水溶性黄体酮具有生物等效性，且安全性良好。主要PK参数AUC<sub>0-t</sub>、AUC<sub>0-∞</sub>、C<sub>max</sub>的几何均值比及其90%CI均落在可接受的等效范围80.00%~125.00%内，说明了其在人体中的吸收代谢与原研水溶性黄体酮相似。</li><li><strong>原研三期临床：</strong>原研水溶性黄体酮Lubion®的三期、前瞻性、开放标签、随机、对照、平行组、多中心、双臂、非劣效性研究，纳入欧洲683名ART新鲜移植周期患者，分为水溶性黄体酮（n=339，25mg/d）或阴道黄体酮凝胶（n=344，90mg/d）组，结果显示两组间持续妊娠率（29.2% vs. 31.2%，P=0.61）、分娩及活产率（28.5% vs. 30.5%，P=0.58）均无显著性差异，达到非劣效性终点。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014;101(1):112-119.e3 / GenSci070与Lubion®的BE试验结果报告</div>',
+  "金赛欣®有哪些临床指南/共识推荐？": '<p><strong>一句话回应：</strong>水溶性黄体酮受到生殖领域国际权威ESHRE指南推荐；因国内既往没有上市，因此暂无国内指南共识推荐。</p><p><strong>回复话术详解：</strong></p><ul><li><strong>原研国际证据充分：</strong>原研水溶性黄体酮Lubion®最早于2013年在英国获批上市，截至2022年10月已在全球50个国家上市及应用，包括中国台湾。在国际上已经积累了丰富的临床证据及经验。</li><li><strong>国际权威指南推荐：</strong>2020年欧洲人类生殖与胚胎学学会（ESHRE）指南推荐：水溶性黄体酮25mg，用于IVF/ICSI后黄体支持。与油剂黄体酮、阴道黄体酮凝胶、阴道黄体酮软胶囊处于同样的推荐地位。</li></ul><div class="nm">📸 Ovarian Stimulation TEGGO, et al. Hum Reprod Open. 2020 May 1;2020(2)_hoaa009</div>',
+  "金赛欣®与油剂黄体酮的剂量等效关系和临床疗效对比如何？": '<p><strong>一句话回应：</strong>药代动力学研究显示，水溶性黄体酮与油剂生物利用度相当，即25mg水剂在药物暴露量上等于25mg油剂；临床研究显示，在冻胚HRT研究中，水溶性黄体酮25mg bid与油剂50mg达到相同的临床结局。</p><p><strong>证据支持：</strong></p><ul><li><strong>药代学等效：</strong>一项Sator M等人2013年发表的研究，纳入24例绝经后健康志愿者，结果显示100mg水溶性黄体酮SC、100mg水溶性黄体酮IM与100mg油剂黄体酮IM的AUC等效（1884.62 vs 1919.39 vs 2097.12 ng/ml·h），在80-125%等效置信区间内。</li><li><strong>线性吸收：</strong>水溶性黄体酮的PK参数C<sub>max</sub>及AUC<sub>0-t</sub>均随给药剂量增加而线性增加。</li><li><strong>临床结局相当：</strong>一项Turgut EN等人2020年发表的回顾性研究，纳入507个冻胚HRT移植周期，结果显示25mg bid水溶性黄体酮和50mg油剂黄体酮两组间临床妊娠率（71.5% vs 71.6%，P=0.979）、活产率（62.7% vs 58.7%，P=0.404）均无统计学差异。</li></ul><div class="nm">📸 Sator M, et al. Gynecol Endocrinol. 2013 / Turgut EN, et al. Turk J Obstet Gynecol. 2020</div>',
+  "金赛欣®与临床常用的阴塞黄体酮的临床疗效对比如何？": '<p><strong>一句话回应：</strong>多项临床研究显示：新鲜周期，25mg水溶性黄体酮与90mg阴道凝胶（雪诺同）及200mg tid黄体酮软胶囊（安琪坦）疗效相当；冻胚HRT周期，25mg bid水溶性黄体酮，比90mg bid阴道凝胶疗效更优。</p><p><strong>证据支持：</strong></p><ul><li><strong>鲜胚移植：</strong>水溶性黄体酮25mg/d与阴道黄体酮凝胶90mg/d临床结局相当（持续妊娠率29.2% vs 31.2%，P=0.61）；与阴道黄体酮软胶囊200mg tid临床结局相当（临床妊娠率39.9% vs 36.5%，P=0.630）。</li><li><strong>冻胚人工周期：</strong>水溶性黄体酮25mg bid妊娠结局优于阴道黄体酮凝胶90mg bid（持续妊娠率54.0% vs 46.0%，P&lt;0.001；活产率47.6% vs 35.0%，P&lt;0.001）。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014 / Arzu YURCİ, et al. 2021 / Schütt M, et al. 2021</div>',
+  "金赛欣®注射后，能达到的血孕酮浓度是多少？": '<p><strong>一句话回应：</strong>临床研究显示，HRT周期应用25mg bid水溶性黄体酮，移植日平均血孕酮约为20ng/ml，但血孕酮值存在较大个体间差异。水溶性黄体酮因吸收更快，血药浓度呈现前高后低的特点。</p><p><strong>回复话术：</strong></p><ul><li><strong>不主动建议临床监测血孕酮值，引导关注临床结局。</strong></li><li><strong>血值个体差异：</strong>患者对药物的吸收代谢存在个体差异，血孕酮浓度存在患者个体间差异。</li><li><strong>临床研究血值：</strong>HRT-FET周期中，25mg bid水溶性黄体酮与50mg/d肌注黄体酮组，移植日血P水平相当（19.92ng/ml vs 21ng/ml，P=0.786）。</li><li><strong>药代学特点：</strong>健康绝经期女性单次皮下注射25mg，给药1h后平均C<sub>max</sub>为50.7±16.3ng/ml，多次皮下注射25mg/d约2天达到稳态，谷浓度为4.8±1.1ng/ml。快速达峰对于移植后阴道出血、腹痛及有先兆流产症状的患者能够更快发挥作用。</li></ul><div class="nm">📸 黄体酮注射液（II）说明书 / Turgut EN, et al. 2020 / Arzu YURCİ, et al. 2021</div>',
+  "金赛欣®在鲜胚移植中的用药方案推荐": '<p><strong>一句话回应：</strong>鲜胚移植中，单用25mg qd已足够，无需额外补充。金赛欣可作为黄体支持打底药物。</p><p><strong>回复话术：</strong></p><ul><li><strong>鲜胚方案：</strong>金赛欣单用即可，25mg qd皮下注射。从取卵日开始持续用至孕8-10周（或遵医嘱）。</li><li><strong>临床证据：</strong>研究显示，在鲜胚移植中，单用25mg qd水溶性黄体酮可以达到与单用90mg/d阴道黄体酮凝胶和200mg tid黄体酮软胶囊相当的临床妊娠率和持续妊娠率。</li><li><strong>用药优势：</strong>单次给药方便，患者依从性好，无阴道分泌物困扰。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014 / Schütt M, et al. 2021</div>',
+  "金赛欣®在冻胚移植方案中的用药推荐": '<p><strong>一句话回应：</strong>金赛欣是新一代黄体支持打底用药。冻胚HRT周期：25mg bid+口服地屈孕酮bid/tid；冻胚NC周期：25mg qd单用就够了。</p><p><strong>具体给药建议：</strong></p><p><strong>冻胚HRT − 联合方案（金赛欣打底+口服）：</strong></p><ul><li><strong>剂量：</strong>25mg bid + 口服bid/tid</li><li><strong>给药方式：</strong>自我注射（皮下打肚皮，早1次晚1次）或护士注射（肌注打屁股）</li><li><strong>用药时长：</strong>内膜转化日开始，持续用至孕8-10周</li></ul><p><strong>冻胚自然周期 − 金赛欣单用：</strong></p><ul><li><strong>剂量：</strong>25mg qd</li><li><strong>给药方式：</strong>皮下或肌注</li><li><strong>用药时长：</strong>排卵日/扳机日开始，持续用至孕6-8周</li></ul><p><strong>证据支持：</strong>多项研究显示，冻胚HRT周期中水溶性黄体酮25mg bid与50mg/d肌注油剂黄体酮临床结局相当，相比90mg bid阴道黄体酮凝胶达到相当或更优的临床结局。水溶性黄体酮保障药物高效吸收入血，同时避免油剂的不良反应。</p><div class="nm">📸 Turgut EN, et al. 2020 / Arzu YURCİ, et al. 2021 / Turkgeldi E, et al. 2020</div>',
+  "金赛欣®的安全性如何？": '<p><strong>一句话回应：</strong>金赛欣安全性良好，有效成份为天然黄体酮，与人体卵巢分泌的黄体酮一致，可显著减少注射硬结和阴道不良反应，患者使用倾向性优于阴塞。</p><p><strong>安全性数据：</strong></p><ul><li><strong>安全性良好：</strong>无论在鲜胚或冻胚移植周期中，多项研究均显示水溶性黄体酮安全性良好。</li><li><strong>注射部位反应少：</strong>水溶性黄体酮注射部位不良反应发生率较油剂显著更低（疼痛发生率7.2%，红肿、硬结发生率为2.07%）。</li><li><strong>阴道不良反应少：</strong>相比阴道黄体酮，水溶性黄体酮阴道不良反应（阴道刺激、炎症、干燥、瘙痒、分泌物或疼痛）发生率显著降低（10.4% vs. 50.8%，P&lt;0.0001）。</li><li><strong>患者偏好更优：</strong>水溶性黄体酮皮下注射具有方便省时、无阴道分泌物排出困扰、无药物漏出担忧、对两性生活影响更小等优势。</li></ul><div class="nm">📸 Lockwood G, et al. Fertil Steril. 2014 / 黄体酮注射液（II）说明书</div>',
+  "如何减轻金赛欣®的注射疼痛及相关不良反应？": '<p><strong>一句话回应：</strong>注射后疼痛为正常现象，个体间差异较大，通常在注射后10-30min左右出现，持续数小时至1天，通常可耐受。</p><p><strong>减轻疼痛秘诀：</strong>①单次给药，不超1支 ②腹部注射，全程捏皮 ③垂直进针，全部刺入 ④缓慢推注，保持匀速 ⑤拔针之后，无需按压</p><p><strong>详细建议：</strong></p><ul><li><strong>注射方式：</strong>首选肌肉注射（护士给药），自我注射选择腹部皮下注射</li><li><strong>腹部皮下注射：</strong>放松腹部，全程捏皮；90度垂直进针，针头全部刺入；减慢注射速度</li><li><strong>单次剂量：</strong>皮下注射不超过25mg，避免剂量增加加剧疼痛</li><li><strong>针头选择：</strong>皮下注射建议更换27G（0.4mm×13mm）小号针头；肌注用21G针头</li><li><strong>轮换部位：</strong>每次注射轮换区域，2次注射点间距2cm以上</li></ul><div class="nm">📸 王雨, 等. 中国实用护理杂志, 2023 / 临床经验反馈</div>',
+  "金赛欣®储存条件说明": '<p><strong>一句话回应：</strong>请按说明书要求保存，最适宜温度为8-25℃，严禁放入冰箱；加速和低温冻融试验显示，短期温度超过最适宜范围，不会影响药物质量。</p><p><strong>储存要求：</strong></p><ul><li>避光、密闭，不超过25℃保存</li><li>最佳储存条件为8-25℃阴凉处</li><li>严禁冷藏或冷冻</li><li><strong>加速稳定性试验：</strong>40℃±2℃、湿度75%RH±5%RH条件下考察6个月，检测结果均符合质量标准</li><li><strong>低温冻融试验：</strong>2-8℃与40℃±2℃交替（3次循环），检测结果均符合质量标准</li></ul><div class="nm">📸 黄体酮注射液（II）说明书 / 加速稳定性及低温冻融试验说明函</div>',
+  "关于金赛欣®的医保及价格问题": '<p><strong>一句话回应：</strong>金赛欣是唯一签署国谈协议的产品，按乙类医保报销，支付标准14.86元/瓶。</p><p><strong>医保信息：</strong></p><ul><li>金赛欣®成功通过2024年国家医保谈判，进入2024年新版国家医保目录（2025年1月1日起正式落地执行）</li><li>按医保乙类药品报销（具体以各地医保政策为准）</li><li>成为辅助生殖领域第一个国谈药品，也是唯一签署国谈协议的产品</li></ul><p><strong>价格优势：</strong>医保指导价14.86元/瓶（1.112ml:25mg）。相比阴道黄体酮凝胶约70元/支/日、黄体酮软胶囊约17元/日、口服地屈孕酮16元/日，价格最低，剂型最新，为各剂型黄体支持药物中性价比的天花板。报销后患者每日自费金额仅个位数。</p><div class="nm">📸 2024年国家医保目录 / 内部数据</div>'
+,
+  "金赛欣®注射操作单页": '<div style="margin:0 -4px">
+<img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page1.jpg" alt="注射操作指南" style="width:100%;max-width:600px;display:block;margin:0 auto 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+<img src="https://1012457279.github.io/jinsaijia-qa/inject-guide-page2.jpg" alt="注射操作指南-续" style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+<div class="nm" style="margin-top:10px">📘 金赛欣®注射操作单页-V2</div></div>'
+};
+
+// ====== Build Functions ======
+function build1() {
+  var m = document.getElementById("main1");
+  var cats = [...new Set(items1.map(function(i){return i[0]}))];
+  var html = "";
+  cats.forEach(function(c, idx){
+    html += '<div class="cat c1" id="c1-'+idx+'">'+c+'</div>';
+    items1.forEach(function(i){
+      if(i[0] === c){
+        html += '<div class="q" data-q="'+i[1]+'"><div class="qh"><span>'+i[1]+'</span><span class="ar">▾</span></div><div class="qa">'+qa1[i[1]]+'</div></div>';
+      }
+    });
+  });
+  m.innerHTML = html;
+  document.getElementById("tot1").textContent = items1.length;
+
+  // TOC
+  var toc = document.getElementById("toc1");
+  var tocHtml = "";
+  cats.forEach(function(c, idx){
+    tocHtml += '<a class="l1" href="#c1-'+idx+'">'+c+'</a>';
+  });
+  toc.innerHTML = tocHtml;
+
+  // Accordion
+  m.addEventListener("click", function(e){
+    var h = e.target.closest(".qh");
+    if(h) h.parentElement.classList.toggle("o");
+  });
+}
+
+function build2() {
+  var m = document.getElementById("main2");
+  var cats = [...new Set(items2.map(function(i){return i[0]}))];
+  var html = "";
+  cats.forEach(function(c, idx){
+    html += '<div class="cat c2" id="c2-'+idx+'">'+c+'</div>';
+    items2.forEach(function(i){
+      if(i[0] === c){
+        var qEsc = i[1].replace(/'/g, "\'");
+        html += '<div class="q" data-q="'+qEsc+'"><div class="qh"><span>'+i[1]+'</span><span class="ar">▾</span></div><div class="qa">'+qa2[i[1]]+'</div></div>';
+      }
+    });
+  });
+  m.innerHTML = html;
+  document.getElementById("tot2").textContent = items2.length;
+
+  m.addEventListener("click", function(e){
+    var h = e.target.closest(".qh");
+    if(h) h.parentElement.classList.toggle("o");
+  });
+}
+
+// ====== Search ======
+function initSearch1() {
+  document.getElementById("s1").addEventListener("input", function(){
+    var q = this.value.trim().toLowerCase();
+    var divs = document.querySelectorAll("#main1 .q");
+    var n = 0;
+    divs.forEach(function(d){
+      var match = !q || d.getAttribute("data-q").toLowerCase().indexOf(q) !== -1 || d.querySelector(".qa").textContent.toLowerCase().indexOf(q) !== -1;
+      d.style.display = match ? "" : "none";
+      if(match) n++;
+    });
+    document.getElementById("tot1").textContent = n;
+    document.getElementById("none1").style.display = n ? "none" : "block";
+  });
+}
+
+function initSearch2() {
+  document.getElementById("s2").addEventListener("input", function(){
+    var q = this.value.trim().toLowerCase();
+    var divs = document.querySelectorAll("#main2 .q");
+    var n = 0;
+    divs.forEach(function(d){
+      var match = !q || d.getAttribute("data-q").toLowerCase().indexOf(q) !== -1 || d.querySelector(".qa").textContent.toLowerCase().indexOf(q) !== -1;
+      d.style.display = match ? "" : "none";
+      if(match) n++;
+    });
+    document.getElementById("tot2").textContent = n;
+    document.getElementById("none2").style.display = n ? "none" : "block";
+  });
+}
+
+// Init: show landing by default
+showLanding();
+</script>
+</body>
 </html>
