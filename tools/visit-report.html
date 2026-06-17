@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>拜访记录生成器</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1a2332;line-height:1.6}
+.header{background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;padding:20px 16px;text-align:center}
+.header h1{font-size:22px;font-weight:700}
+.header p{font-size:13px;opacity:.8;margin-top:4px}
+.container{max-width:680px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.06);padding:16px;margin-bottom:14px}
+.card h2{font-size:15px;font-weight:600;color:#1e40af;margin-bottom:12px}
+label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:4px;margin-top:10px}
+label:first-child{margin-top:0}
+input,textarea,select{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;outline:0;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+textarea{resize:vertical;min-height:60px}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.btn{padding:10px 24px;border:0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;margin-top:6px}
+.btn-primary{background:#3b82f6;color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-green{background:#059669;color:#fff}
+.btn-green:hover{opacity:.9}
+.result{display:none;margin-top:12px}
+.result.show{display:block}
+.result-content{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;font-size:13px;line-height:1.8;white-space:pre-wrap}
+.copy-btn{background:#e2e8f0;color:#475569;padding:6px 14px;border:0;border-radius:6px;font-size:12px;cursor:pointer;margin-top:8px}
+.copy-btn:hover{background:#cbd5e1}
+footer{text-align:center;padding:20px;font-size:12px;color:#94a3b8}
+@media(max-width:480px){.row{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="header"><h1>📋 拜访记录生成器</h1><p>填几个要点 · 自动生成规范拜访记录</p></div>
+<div class="container">
+<form id="form" onsubmit="generate(event)">
+<div class="card"><h2>基本信息</h2>
+<div class="row">
+<div><label>医生姓名</label><input id="docName" placeholder="如：张主任"></div>
+<div><label>医院科室</label><input id="dept" placeholder="如：生殖医学科"></div>
+</div>
+<div class="row">
+<div><label>拜访日期</label><input id="date" type="date"></div>
+<div><label>产品</label><select id="product"><option>金赛佳®</option><option>金赛欣®</option><option>两个都推了</option></select></div>
+</div>
+</div>
+<div class="card"><h2>拜访内容</h2>
+<label>本次拜访目的</label>
+<select id="purpose"><option>新品推荐</option><option>学术跟进</option><option>问题答疑</option><option>客情维护</option><option>其他</option></select>
+<label>谈话要点（几句话描述）</label>
+<textarea id="points" placeholder="例：推荐金赛佳单次注射方案，对比短效rFSH优势…"></textarea>
+<label>医生关注点 / 提问</label>
+<textarea id="concerns" placeholder="例：医生关心早期FSH高峰对卵子质量的影响…"></textarea>
+<label>我的回应</label>
+<textarea id="response" placeholder="例：引用中山六院PGT数据，非整倍体率与短效相当…"></textarea>
+</div>
+<div class="card"><h2>后续计划</h2>
+<label>下次跟进事项</label>
+<textarea id="nextPlan" placeholder="例：下次带III期研究原文给医生"></textarea>
+<label>医生标签（多选）</label>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+<label style="font-weight:400;display:flex;align-items:center;gap:4px;background:#f1f5f9;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer"><input type="checkbox" value="注重学术"> 注重学术</label>
+<label style="font-weight:400;display:flex;align-items:center;gap:4px;background:#f1f5f9;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer"><input type="checkbox" value="关心价格"> 关心价格</label>
+<label style="font-weight:400;display:flex;align-items:center;gap:4px;background:#f1f5f9;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer"><input type="checkbox" value="对竞品熟悉"> 对竞品熟悉</label>
+<label style="font-weight:400;display:flex;align-items:center;gap:4px;background:#f1f5f9;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer"><input type="checkbox" value="对新品开放"> 对新品开放</label>
+<label style="font-weight:400;display:flex;align-items:center;gap:4px;background:#f1f5f9;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer"><input type="checkbox" value="需要持续教育"> 需要持续教育</label>
+</div>
+</div>
+<button class="btn btn-primary" style="width:100%">✨ 生成拜访记录</button>
+</form>
+
+<div class="result" id="result">
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+<h2 style="margin:0">📄 生成的记录</h2>
+<button class="copy-btn" onclick="copyResult()">📋 复制</button>
+</div>
+<div class="result-content" id="resultContent"></div>
+</div>
+</div>
+</div>
+<footer>仅供内部使用 · 拜访记录生成器</footer>
+<script>
+function generate(e) {
+  e.preventDefault();
+  const d = id => document.getElementById(id).value;
+  const tags = [...document.querySelectorAll("input[type=checkbox]:checked")].map(c=>c.value).join("、") || "无";
+  const dateVal = d("date") || new Date().toISOString().slice(0,10);
+  const content = [
+    "【拜访记录】",
+    "━━━━━━━━━━━━━━━━",
+    "日期：" + dateVal,
+    "医生：" + d("docName") + "  |  " + d("dept"),
+    "产品：" + d("product") + "  |  目的：" + d("purpose"),
+    "",
+    "📌 谈话要点：",
+    d("points") || "（未填写）",
+    "",
+    "💬 医生关注/提问：",
+    d("concerns") || "（未填写）",
+    "",
+    "✅ 我的回应：",
+    d("response") || "（未填写）",
+    "",
+    "📅 下次跟进：",
+    d("nextPlan") || "（未填写）",
+    "",
+    "🏷 医生标签：" + tags
+  ].join("\n");
+  document.getElementById("resultContent").textContent = content;
+  document.getElementById("result").classList.add("show");
+}
+function copyResult() {
+  const text = document.getElementById("resultContent").textContent;
+  navigator.clipboard.writeText(text).then(() => alert("已复制到剪贴板！"));
+}
+document.getElementById("date").value = new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
