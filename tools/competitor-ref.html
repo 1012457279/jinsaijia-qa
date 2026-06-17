@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>竞品速查卡</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f0f4f8;color:#1a2332;line-height:1.6}
+.header{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;padding:20px 16px;text-align:center}
+.header h1{font-size:22px;font-weight:700}
+.header p{font-size:13px;opacity:.8;margin-top:4px}
+.container{max-width:700px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.06);padding:16px;margin-bottom:14px}
+.card h2{font-size:15px;font-weight:600;color:#7c3aed;margin-bottom:10px}
+.prod-tabs{display:flex;gap:8px;margin-bottom:14px}
+.prod-tab{flex:1;padding:10px;border-radius:8px;text-align:center;font-weight:600;font-size:14px;cursor:pointer;border:2px solid #d1d5db;background:#fff;color:#374151;transition:all .15s}
+.prod-tab.active{background:#7c3aed;color:#fff;border-color:#7c3aed}
+table{width:100%;border-collapse:collapse;font-size:13px}
+table th{background:#f5f3ff;padding:8px 10px;border:1px solid #e2e8f0;text-align:left;font-weight:600;color:#4a5568;width:30%}
+table td{padding:8px 10px;border:1px solid #e2e8f0;color:#333}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;margin:2px;background:#e0e7ff;color:#4338ca}
+.tag.green{background:#d1fae5;color:#065f46}
+.tag.orange{background:#fef3c7;color:#92400e}
+.tip{background:#f5f3ff;border-radius:8px;padding:12px;font-size:13px;line-height:1.7;margin-top:10px;border-left:3px solid #7c3aed}
+.tip strong{color:#7c3aed}
+footer{text-align:center;padding:20px;font-size:12px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="header"><h1>⚡ 竞品速查卡</h1><p>选产品 · 看对比 · 快速掌握竞争优势</p></div>
+<div class="container">
+<div class="prod-tabs"><div class="prod-tab active" onclick="switchProd(this,'jinsaijia')">金赛佳®</div><div class="prod-tab" onclick="switchProd(this,'jinsaixin')">金赛欣®</div></div>
+<div id="cardContainer"></div>
+</div>
+<footer>仅供内部参考 · 竞品速查卡</footer>
+<script>
+const data = {
+  jinsaijia: {
+    name: "金赛佳®",
+    desc: "绒促卵泡刺激素α N02注射液 | 长效促排卵",
+    data: [
+      ["通用名", "绒促卵泡刺激素α（rFSH-CTP）"],
+      ["适应症", "40岁以下女性，GnRH拮抗剂方案下控制性卵巢刺激"],
+      ["规格", "100μg/0.5ml、150μg/0.5ml 预灌封注射器"],
+      ["用法", "单次皮下注射，一针覆盖一周促排周期"],
+      ["半衰期", "~76小时（短效rFSH约24小时，延长约3倍）"],
+      ["III期研究", "多中心、随机、双盲双模拟、阳性对照，n=473"],
+      ["获卵数", "15.5个 vs 短效rFSH 12.1个（P=0.014）"],
+      ["妊娠结局", "临床妊娠率 45.7% vs 45.5%（相当）"],
+      ["保存条件", "2~8℃冷藏，不可冷冻"],
+    ],
+    comp: [
+      {name: "短效rFSH（果纳芬等）", diffs: ["需每日注射便利性差", "半衰期~24h，频繁监测"]},
+      {name: "煦诺嘉（长效rFSH）", diffs: ["开放标签设计，n=283", "年龄≤35岁，限制更严", "双盲双模拟vs开放标签"]}
+    ]
+  },
+  jinsaixin: {
+    name: "金赛欣®",
+    desc: "水溶性黄体酮注射液 | 黄体支持",
+    data: [
+      ["通用名", "黄体酮注射液（I）"],
+      ["适应症", "辅助生殖技术中的黄体支持"],
+      ["规格", "25mg/1.112ml/瓶"],
+      ["用法", "新鲜周期25mg qd；冻胚HRT 25mg bid+口服"],
+      ["医保", "2024年国谈药品，乙类报销，支付价24.86元/瓶"],
+      ["与原研比较", "BE研究显示AUC/Cmax等效（90%CI在80-125%内）"],
+      ["安全性", "注射硬结率0.07%，阴道不良反应10.4% vs 阴道凝胶50.8%"],
+      ["患者倾向", "无阴道分泌物，便捷性优于阴道凝胶"],
+      ["保存条件", "避光，≤25℃，严禁冷藏冷冻"],
+    ],
+    comp: [
+      {name: "阴道黄体酮凝胶（雪诺同）", diffs: ["阴道不良反应50.8%（vs 10.4%）", "价格约40元/支/日", "阴道分泌物困扰"]},
+      {name: "黄体酮软胶囊（安琪坦）", diffs: ["约17元/日，价格居中", "口服有嗜睡副作用", "阴道给药不便"]},
+      {name: "口服地屈孕酮", diffs: ["约6元/日，价格最低", "无法单药用于FET周期", "需联合其他剂型"]}
+    ]
+  }
+};
+
+function switchProd(el, key) {
+  document.querySelectorAll(".prod-tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  renderCard(key);
+}
+
+function renderCard(key) {
+  const d = data[key];
+  let html = "<div class=card><h2>📋 " + d.name + " 产品档案</h2><p style=font-size:13px;color:#64748b;margin-bottom:10px>" + d.desc + "</p><table>";
+  d.data.forEach(r => html += "<tr><th>" + r[0] + "</th><td>" + r[1] + "</td></tr>");
+  html += "</table></div>";
+  
+  html += "<div class=card><h2>⚡ 竞品对比</h2>";
+  d.comp.forEach(c => {
+    html += "<div class=tip><strong>🆚 " + c.name + "</strong><br>";
+    c.diffs.forEach(dd => html += "• " + dd + "<br>");
+    html += "</div>";
+  });
+  html += "</div>";
+  
+  document.getElementById("cardContainer").innerHTML = html;
+}
+renderCard("jinsaijia");
+</script>
+</body>
+</html>
